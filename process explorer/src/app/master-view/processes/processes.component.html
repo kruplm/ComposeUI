@@ -12,7 +12,7 @@
 <div class="column-layout_1 column">
   <div class="row-layout row">
     <igx-tree-grid #treeGrid [data]="mockProcessesData" childDataKey="Children" [rowSelection]= "'multiple'"
-        [autoGenerate]="false" width="100%" height="607px" displayDensity="cosy" primaryKey="id" class="grid">
+        [autoGenerate]="false" width="100%" height="607px" displayDensity="cosy" class="grid">
         <igx-column field="ProcessName" header="Process Name" title="Process Name" dataType="string" [groupable]="true"></igx-column>
         <igx-column field="PID" header="PID" title="PID" dataType="number" [groupable]="true"></igx-column>
         <igx-column field="ProcessStatus" header="Process Status" title="Status" dataType="string" [groupable]="true"></igx-column>
@@ -21,6 +21,12 @@
         <igx-column field="PhysicalMemoryUsageBit" header="Physical Memory Usage [Bit]" title="Physical Memory Usage [Bit]" dataType="number" [groupable]="true"></igx-column>
         <igx-column field="PriorityLevel" header="Priority Level" title="Priority Level" dataType="string" [groupable]="true"></igx-column>
         <igx-column field="VirtualMemorySize" header="Virtual Memory Size" title="Virtual Memory Size" dataType="number" [groupable]="true"></igx-column>
+        <igx-column-group header="Environment Variables" [collapsible]="true">
+          <igx-column field="..." [width]="'300px'" dataType="string" [sortable]="true" [resizable]="true" [visibleWhenCollapsed]="true"></igx-column>
+          <igx-column field="EnvironmentVar.ComputerName" dataType="string" [sortable]="true" [resizable]="true" [visibleWhenCollapsed]="false"></igx-column>
+          <igx-column field="EnvironmentVar.Username" dataType="string" [sortable]="true" [resizable]="true" [visibleWhenCollapsed]="false"></igx-column>
+          <igx-column field="EnvironmentVar.Homepath" dataType="string" [sortable]="true" [resizable]="true" [visibleWhenCollapsed]="false"></igx-column>
+        </igx-column-group>
     <igx-action-strip #actionstrip>
       <igx-grid-pinning-actions></igx-grid-pinning-actions>
 
