@@ -52,8 +52,12 @@ namespace Shell
             var webContent = new WebContent(item.Url);
             webContent.Title = item.AppName;
 
-            webContent.Owner = this;
-            
+            //We may not need this, but it makes sure that the child windows don't go behind the main window.
+            //if the OnClosing override is not there, and main is not the Owner, then only the main window gets closed and the child windows stay open.
+
+            // webContent.Owner = this;
+
+
             webContentList.Add(webContent);
             webContent.Show();
         }
@@ -72,9 +76,13 @@ namespace Shell
         {
             this.UpdateViews(modules[2]);
         }
-        
+
+        //originally I added this to overcome the the exception from Webview2
+        //If it's commented out you get an exception.
+        /**/
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
+            
             webContentList.ToList().ForEach(window => window?.Close());
             webContentList.Clear();
             
