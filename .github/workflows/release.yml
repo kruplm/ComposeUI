@@ -11,6 +11,7 @@ jobs:
     uses: ./.github/workflows/continuous-integration-prototypes.yml
   upload:
     name: Upload Release Asset
+    needs: build
     runs-on: windows-latest
     steps:
       - name: Checkout code
