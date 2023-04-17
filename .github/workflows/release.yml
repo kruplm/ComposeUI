@@ -32,6 +32,6 @@ jobs:
       - name: List bin
         run: dir ${{ github.workspace }}\src\shell\dotnet\Shell\bin\
       - name: Compress
-        run: Compress-Archive -WhatIf -Path ${{ github.workspace }}\src\shell\dotnet\Shell\bin\Debug\net6.0-windows\* composeui_win32.zip
+        run: Compress-Archive -WhatIf -Path ${{ github.workspace }}\src\shell\dotnet\Shell\bin\Release\net6.0-windows\* composeui_win32.zip
           
       
