@@ -30,9 +30,6 @@ jobs:
         run: |
           echo ${{ github.workspace }}
           echo $GITHUB_WORKSPACE
-          dir D:\a\ComposeUI\ComposeUI\src\shell\dotnet\Shell
-          dotnet build D:\a\ComposeUI\ComposeUI\src\shell\dotnet\Shell\Shell.csproj --configuration Release; if ($LASTEXITCODE -ne 0 ) {throw "Build for $_ FAILED"; }
-          dir D:\a\ComposeUI\ComposeUI\src\shell\dotnet\Shell
-          Compress-Archive -WhatIf -Path D:\a\ComposeUI\ComposeUI\src\shell\dotnet\Shell\bin\Debug\net6.0-windows\* composeui_win32.zip   
+          dotnet build D:\a\ComposeUI\ComposeUI\src\shell\dotnet\Shell.sln --configuration Release; if ($LASTEXITCODE -ne 0 ) {throw "Build for $_ FAILED"; } -and (Compress-Archive -WhatIf -Path D:\a\ComposeUI\ComposeUI\src\shell\dotnet\Shell\bin\Debug\net6.0-windows\* composeui_win32.zip)
           dir D:\a\ComposeUI\ComposeUI\src\shell\dotnet\Shell
       
