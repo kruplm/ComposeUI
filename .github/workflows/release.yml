@@ -28,8 +28,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Build project # This would actually build your project, using zip for an example artifact
-        run: |
-          dir ${{ github.workspace }}\src\shell\dotnet\
-          dotnet build ${{ github.workspace }}\src\shell\dotnet\Shell.sln --configuration Release; if ($LASTEXITCODE -ne 0 ) {throw "Build for $_ FAILED"; } -and (Compress-Archive -WhatIf -Path ${{ github.workspace }}\src\shell\dotnet\Shell\bin\Debug\net6.0-windows\* composeui_win32.zip)
+        run:  dotnet build ${{ github.workspace }}\src\shell\dotnet\Shell.sln --configuration Release; if ($LASTEXITCODE -ne 0 ) {throw "Build for $_ FAILED"; } 
+      - name: List bin
+        run: dir ${{ github.workspace }}\src\shell\dotnet\Shell\bin\
+      - name: Compress
+        run: Compress-Archive -WhatIf -Path ${{ github.workspace }}\src\shell\dotnet\Shell\bin\Debug\net6.0-windows\* composeui_win32.zip
           
       
