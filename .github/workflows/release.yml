@@ -11,7 +11,7 @@ jobs:
     uses: ./.github/workflows/continuous-integration-prototypes.yml
   upload:
     name: Upload Release Asset
-    needs: build
+    #needs: build
     runs-on: windows-latest
     strategy:
       matrix:
@@ -23,13 +23,13 @@ jobs:
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
-          
+      - name: list stuff
+        run:  dir ${{ github.workspace }}
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Build project # This would actually build your project, using zip for an example artifact
         run: |
-          echo ${{ github.workspace }}
-          echo $GITHUB_WORKSPACE
-          dotnet build D:\a\ComposeUI\ComposeUI\src\shell\dotnet\Shell.sln --configuration Release; if ($LASTEXITCODE -ne 0 ) {throw "Build for $_ FAILED"; } -and (Compress-Archive -WhatIf -Path D:\a\ComposeUI\ComposeUI\src\shell\dotnet\Shell\bin\Debug\net6.0-windows\* composeui_win32.zip)
-          dir D:\a\ComposeUI\ComposeUI\src\shell\dotnet\Shell
+          dir ${{ github.workspace }}\src\shell\dotnet\
+          dotnet build ${{ github.workspace }}\src\shell\dotnet\Shell.sln --configuration Release; if ($LASTEXITCODE -ne 0 ) {throw "Build for $_ FAILED"; } -and (Compress-Archive -WhatIf -Path ${{ github.workspace }}\src\shell\dotnet\Shell\bin\Debug\net6.0-windows\* composeui_win32.zip)
+          
       
