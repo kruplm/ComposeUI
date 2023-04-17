@@ -13,7 +13,17 @@ jobs:
     name: Upload Release Asset
     needs: build
     runs-on: windows-latest
+    strategy:
+      matrix:
+        dotnet-version: [ '6.0.x' ]
+  
     steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+          
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Build project # This would actually build your project, using zip for an example artifact
@@ -21,5 +31,8 @@ jobs:
           echo ${{ github.workspace }}
           echo $GITHUB_WORKSPACE
           dir D:\a\ComposeUI\ComposeUI\src\shell\dotnet\Shell
+          dotnet build D:\a\ComposeUI\ComposeUI\src\shell\dotnet\Shell\Shell.csproj --configuration Release; if ($LASTEXITCODE -ne 0 ) {throw "Build for $_ FAILED"; }
+          dir D:\a\ComposeUI\ComposeUI\src\shell\dotnet\Shell
           Compress-Archive -WhatIf -Path D:\a\ComposeUI\ComposeUI\src\shell\dotnet\Shell\bin\Debug\net6.0-windows\* composeui_win32.zip   
+          dir D:\a\ComposeUI\ComposeUI\src\shell\dotnet\Shell
       
