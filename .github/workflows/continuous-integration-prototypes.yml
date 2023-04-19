@@ -54,3 +54,9 @@ jobs:
 
     - name: Codecov
       uses: codecov/codecov-action@v3.0.0
+      
+    - name: Upload
+      uses: actions/upload-artifact@v3
+      with:
+        name: shell-binaries
+        path: ${{ github.workspace }}/src/shell/dotnet/Shell/bin/Release/net6.0-windows/
