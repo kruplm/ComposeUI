@@ -23,10 +23,10 @@ jobs:
       #  uses: actions/setup-dotnet@v2
       #  with:
       #    dotnet-version: ${{ matrix.dotnet-version }}
-      - name: list stuff
-        run:  dir ${{ github.workspace }}
-      - name: Checkout code
-        uses: actions/checkout@v2
+      #- name: list stuff
+      #  run:  dir ${{ github.workspace }}
+      #- name: Checkout code
+      #  uses: actions/checkout@v2
       #- name: Build project # This would actually build your project, using zip for an example artifact
       #  run:  dotnet build ${{ github.workspace }}\src\shell\dotnet\Shell.sln --configuration Release; if ($LASTEXITCODE -ne 0 ) {throw "Build for $_ FAILED"; } 
      
