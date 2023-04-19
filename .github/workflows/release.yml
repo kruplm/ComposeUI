@@ -38,7 +38,7 @@ jobs:
     
       - name: Display structure of downloaded files
         run: Get-ChildItem -Recurse
-        working-directory: path/to/artifact
+        working-directory: ${{ github.workspace }}/shell-binaries
       
       - name: List bin
         run: dir ${{ github.workspace }}/shell-binaries
