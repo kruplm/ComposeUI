@@ -31,7 +31,7 @@ jobs:
       #  run:  dotnet build ${{ github.workspace }}\src\shell\dotnet\Shell.sln --configuration Release; if ($LASTEXITCODE -ne 0 ) {throw "Build for $_ FAILED"; } 
      
       - name: Download Artifact
-      - uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v3
         with:
           name: shell-binaries
           path: ${{ github.workspace }}/shell-binaries
