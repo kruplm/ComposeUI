@@ -13,16 +13,16 @@ jobs:
     name: Upload Release Asset
     needs: build
     runs-on: windows-latest
-    strategy:
-      matrix:
-        dotnet-version: [ '6.0.x' ]
+    #strategy:
+    #  matrix:
+    #    dotnet-version: [ '6.0.x' ]
   
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+      #- uses: actions/checkout@v3
+      #- name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+      #  uses: actions/setup-dotnet@v2
+      #  with:
+      #    dotnet-version: ${{ matrix.dotnet-version }}
       - name: list stuff
         run:  dir ${{ github.workspace }}
       - name: Checkout code
@@ -40,8 +40,8 @@ jobs:
         run: Get-ChildItem -Recurse
         working-directory: ${{ github.workspace }}/shell-binaries
       
-      - name: List bin
-        run: dir ${{ github.workspace }}/shell-binaries
+      #- name: List bin
+      #  run: dir ${{ github.workspace }}/shell-binaries
         
       - name: Compress
         run: Compress-Archive -Path  ${{ github.workspace }}/shell-binaries/* composeui_win32.zip
