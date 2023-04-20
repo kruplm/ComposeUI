@@ -51,6 +51,9 @@ jobs:
       - name: Compress
         run: Compress-Archive -Path  ${{ github.workspace }}/shell-binaries/* composeui_win32.zip
         
+      - name: check tag
+        run: echo ${{ github.ref }}
+        
       #- name: Create Release
        # id: create_release
        # uses: actions/create-release@v1
