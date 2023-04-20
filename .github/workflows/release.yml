@@ -77,8 +77,8 @@ jobs:
           # See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           upload_url: ${{github.event.release.upload_url }}
           #upload_url: ${{ steps.create_release.outputs.upload_url }} 
-          asset_path: ./composeui_win32.zip
-          asset_name: composeui_win32.zip
+          asset_path: ./composeui-${{ github.ref_name }}-win32.zip
+          asset_name: composeui-${{ github.ref_name }}-win32.zip
           asset_content_type: application/zip
           
       
