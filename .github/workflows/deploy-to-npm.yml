@@ -6,11 +6,11 @@ on:
   workflow_call:
   
 jobs:
-  release:
-    uses: ./.github/workflows/release.yml
+  #release:
+  #  uses: ./.github/workflows/release.yml
   deploy-npm:
     name: Deploy packages to NPM
-    needs: release
+   # needs: release
     runs-on: windows-latest
     strategy:
       matrix:
