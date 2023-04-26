@@ -49,6 +49,7 @@ jobs:
           
   deploy:
     uses: ./.github/workflows/deploy-to-npm.yml
+    needs: upload
         
 #  assets:
 #      runs-on: windows-latest
