@@ -20,6 +20,7 @@ jobs:
       - run: npm ci
       - run: npx lerna run build
       - run: npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
-      - run: npx lerna exec -- npm publish
+      - run: cd ${{ github.workspace }}/src/shell/js/composeui-node-launcher/
+      - run: ls
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
