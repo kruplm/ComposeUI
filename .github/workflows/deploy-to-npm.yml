@@ -28,7 +28,8 @@ jobs:
 
       - name: Publish composeui-node-launcher
         #run: npm publish
-        run: get-content ${{github.workspace }}/.npmrc
+        #run: get-content ${{github.workspace }}/.npmrc
+        run: dir ${{github.workspace }}
         #working-directory: ${{ github.workspace }}/src/shell/js/composeui-node-launcher/
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
