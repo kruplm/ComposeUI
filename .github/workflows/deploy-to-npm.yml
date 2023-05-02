@@ -19,7 +19,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
           registry-url: 'https://registry.npmjs.org'
       - run: |
+             npm whomai
              get-content $NPM_CONFIG_USERCONFIG
+             npm login
+             npm whoami
              dir
              npm ci
              npm run build
