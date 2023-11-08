@@ -3,12 +3,51 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { MockProcesses } from './mock-processes';
 import { ProcessTable } from '../../DTOs/ProcessInfo';
+import { Component } from '@angular/core';
+import { grpc } from '@improbable-eng/grpc-web';
+import { Request } from '@improbable-eng/grpc-web/dist/typings/invoke';
+import { Message } from '../../generated-protos-files/ProcessExplorerMessages_pb';
+import { ProcessExplorerMessageHandler } from '../../generated-protos-files/ProcessExplorerMessages_pb_service';
+import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProcessesService {
+
+  grpcClient!: Request;
+
+  headerDict = {
+    'Content-Type': 'application/grpc',
+  }
+
   public getProcesses(tableName: string): Observable<ProcessTable[]> {
     return of(MockProcesses[tableName]);
   }
-}
+
+  public getProcess(){
+    const request = new google_protobuf_empty_pb.Empty;
+
+    this.grpcClient = grpc.invoke(ProcessExplorerMessageHandler.Subscribe, {
+    host: 'http://localhost:5056',
+    request: request,
+    onMessage: (message: Message) => {
+      console.log('message ====>', message.toObject()); 
+    },
+    metadata: new Headers(this.headerDict),
+    onEnd: (code: grpc.Code, msg: string | undefined, trailers: grpc.Metadata) => {
+      // This section works when server close connection.
+      if (code == grpc.Code.OK) {
+        console.log('request finished wihtout any error');
+      } else {
+        console.log('an error occured', code, msg, trailers);
+      }
+    },
+  });
+
+      
+
+  }
+}      
+  
+

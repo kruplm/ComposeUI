@@ -43,6 +43,7 @@ export class ProcessesComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
   ngOnInit() {
+    this.processService.getProcess()
   }
 
   getKeys(object: any): string[] {
