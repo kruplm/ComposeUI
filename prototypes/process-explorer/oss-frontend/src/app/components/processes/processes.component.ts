@@ -2,11 +2,11 @@
 import { AfterViewInit, ViewChild, Component } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { ProcessInfo, ProcessTable } from 'src/app/DTOs/ProcessInfo';
-import { ProcessesService } from 'src/app/services/processes-service/processes.service';
+import { ProcessInfo, ProcessTable } from '../../DTOs/ProcessInfo';
+import { MockProcessesService } from '../../services/processes-service/mock-processes.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSort, Sort } from '@angular/material/sort';
-import {LiveAnnouncer} from '@angular/cdk/a11y';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 
 @Component({
@@ -32,8 +32,8 @@ export class ProcessesComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private processService: ProcessesService, private liveAnnouncer: LiveAnnouncer) {
-    this.processService.getProcesses('Processes').subscribe(process => this.processesData = process);
+  constructor(private mockprocessService: MockProcessesService, private liveAnnouncer: LiveAnnouncer) {
+    this.mockprocessService.getProcesses('Processes').subscribe(process => this.processesData = process);
     this.displayedColumnsKeys = this.displayedColumns.map(column => column.key);
     this.dataSource = new MatTableDataSource<ProcessTable>(this.processesData);
   }
@@ -43,7 +43,6 @@ export class ProcessesComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
   ngOnInit() {
-    this.processService.getProcess()
   }
 
   getKeys(object: any): string[] {
