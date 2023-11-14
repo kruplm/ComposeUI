@@ -30,7 +30,7 @@ import { ProcessExplorerMessageHandlerHandlers } from '../../../../proto/Process
 export class ProcessesService {
     public exampleServer: ProcessExplorerMessageHandlerHandlers /*ExampleHandlers*/;
 
-    public packageDefinition = protoLoader.loadSync('./proto/example.proto');
+    public packageDefinition = protoLoader.loadSync('../../../../../dotnet/src/MorganStanley.ComposeUI.ProcessExplorer.Abstractions/Infrastructure/Protos/ProcessExplorerMessages.proto');
     public proto = (grpc.loadPackageDefinition(   this.packageDefinition ) as unknown) as ProtoGrpcType;
 
     public server = new grpc.Server();
