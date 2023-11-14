@@ -24,27 +24,26 @@ import { ProtoGrpcType } from '../../../../proto/ProcessExplorerMessages';
 import { ProcessExplorerMessageHandlerHandlers } from '../../../../proto/ProcessExplorerMessageHandler';
 
 
+@Injectable({
+  providedIn: 'root'
+})
 export class ProcessesService {
-  @Injectable({
-    providedIn: 'root'
-  })
-  
-public exampleServer: ProcessExplorerMessageHandlerHandlers /*ExampleHandlers*/;
+    public exampleServer: ProcessExplorerMessageHandlerHandlers /*ExampleHandlers*/;
 
-public packageDefinition = protoLoader.loadSync('./proto/example.proto');
-public proto = (grpc.loadPackageDefinition(   this.packageDefinition ) as unknown) as ProtoGrpcType;
+    public packageDefinition = protoLoader.loadSync('./proto/example.proto');
+    public proto = (grpc.loadPackageDefinition(   this.packageDefinition ) as unknown) as ProtoGrpcType;
 
-public server = new grpc.Server();
-//server.addService(proto.example_package.Example.service, exampleServer);
-//
+    public server = new grpc.Server();
+    //server.addService(proto.example_package.Example.service, exampleServer);
 
 
 
 
-  public getProcess(){
-    //this.server.addService(this.proto.example_package.Example.service, this.exampleServer);
-    //this.server.addService(this.proto.Process.fileDescriptorProtos., this.exampleServer);
-  }
+
+    public getProcess(){
+      //this.server.addService(this.proto.example_package.Example.service, this.exampleServer);
+      //this.server.addService(this.proto.Process.fileDescriptorProtos., this.exampleServer);
+    }
 }  
 
 
