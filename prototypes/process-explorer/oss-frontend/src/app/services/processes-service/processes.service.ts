@@ -10,41 +10,31 @@ import { Injectable } from '@angular/core';
 //import { ProcessExplorerMessageHandler } from '../../generated-protos-files/ProcessExplorerMessages_pb_service';
 //import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";
 
-//import * as grpc from '@grpc/grpc-js';
-//import * as protoLoader from '@grpc/proto-loader';
-//import { ProtoGrpcType } from './proto/example';
-//import { ExampleHandlers } from './proto/example_package/Example';
-
-//import {} from '../../../../../dotnet/src/MorganStanley.ComposeUI.ProcessExplorer.Abstractions/Infrastructure/Protos/ProcessExplorerMessages.proto'
 
 
-import * as grpc from '@grpc/grpc-js';
-import * as protoLoader from '@grpc/proto-loader';
-import { ProtoGrpcType } from '../../../../proto/ProcessExplorerMessages';
-import { ProcessExplorerMessageHandlerHandlers } from '../../../../proto/ProcessExplorerMessageHandler';
+import { ProcessExplorerMessageHandlerClient } from "../../../../proto/ProcessExplorerMessagesServiceClientPb";
+import { Process } from "../../../../proto/ProcessExplorerMessages_pb";
 
+import {} from "grpc-web";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProcessesService {
-    public exampleServer: ProcessExplorerMessageHandlerHandlers /*ExampleHandlers*/;
+  public client = new ProcessExplorerMessageHandlerClient('http://localhost:5056'); 
+  public request= new Process();
+ 
+ 
+  //todo
+  public getProcess(){
+    this.request.getProcessid();
+    this.client.subscribe(this.request, {}).on("data", (response: any) => {
+      console.log(response);
+      console.log(response.getProcessid());
+    })
+  }
+}
 
-    public packageDefinition = protoLoader.loadSync('../../../../../dotnet/src/MorganStanley.ComposeUI.ProcessExplorer.Abstractions/Infrastructure/Protos/ProcessExplorerMessages.proto');
-    public proto = (grpc.loadPackageDefinition(   this.packageDefinition ) as unknown) as ProtoGrpcType;
-
-    public server = new grpc.Server();
-    //server.addService(proto.example_package.Example.service, exampleServer);
-
-
-
-
-
-    public getProcess(){
-      //this.server.addService(this.proto.example_package.Example.service, this.exampleServer);
-      //this.server.addService(this.proto.Process.fileDescriptorProtos., this.exampleServer);
-    }
-}  
 
 
   //grpcClient!: Request;
