@@ -9,6 +9,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test --watch=false",
     "test:dev": "ng test",
+    "proxy": "npx @grpc-web/proxy --target http://localhost:5056 --listen 8056", 
     
     "proto2": "node ../../../node_modules/@grpc/proto-loader/build/bin/proto-loader-gen-types.js --longs=String --enums=String --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=proto/ ../dotnet/src/MorganStanley.ComposeUI.ProcessExplorer.Abstractions/Infrastructure/Protos/ProcessExplorerMessages.proto",
     "proto": "protoc --proto_path=../dotnet/src/MorganStanley.ComposeUI.ProcessExplorer.Abstractions/Infrastructure/Protos ProcessExplorerMessages.proto --js_out=import_style=commonjs,binary:./proto --grpc-web_out=import_style=typescript,mode=grpcweb:./proto"
@@ -31,7 +32,7 @@
     "grpc-web": "^1.5.0",
     "protoc-gen-grpc-web": "^1.4.2",
     "protoc": "^1.1.3",
-    
+    "@grpc-web/proxy": "^0.1.0",
     
     "@grpc/grpc-js": "^1.9.9",
     "material-icons": "^1.13.10",

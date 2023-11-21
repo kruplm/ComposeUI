@@ -21,7 +21,7 @@ import {} from "grpc-web";
   providedIn: 'root'
 })
 export class ProcessesService {
-  public client = new ProcessExplorerMessageHandlerClient('http://localhost:5056'); 
+  public client = new ProcessExplorerMessageHandlerClient('http://localhost:8056'); //todo proxy: 8056; grpc server 5056
   public request= new Process();
  
  
