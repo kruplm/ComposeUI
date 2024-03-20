@@ -15,42 +15,10 @@ name: Release
 jobs:
   build:
     uses: ./.github/workflows/continuous-integration.yml
-  upload:
-    name: Upload Release Asset
-    needs: build
-    runs-on: windows-latest
-
-    steps:
-
-      # Using shared artifact from build workflow
-      - name: Download Artifact
-        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427 # v4.1.4
-        with:
-          name: shell-binaries
-          path: ${{ github.workspace }}/shell-binaries
-    
-      - name: Display structure of downloaded files
-        run: Get-ChildItem -Recurse
-        working-directory: ${{ github.workspace }}/shell-binaries
-        
-      - name: Compress
-        run: Compress-Archive -Path  ${{ github.workspace }}/shell-binaries/* composeui-${{ github.ref_name }}-win32.zip
-        
-      - name: Upload Release Asset
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./composeui-${{ github.ref_name }}-win32.zip
-          asset_name: composeui-${{ github.ref_name }}-win32.zip
-          asset_content_type: application/zip
-          
+  
   deploy-npm:
     name: Publish Package to npmjs
     runs-on: windows-latest
-    needs: upload
     steps:
       - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
@@ -58,6 +26,6 @@ jobs:
           node-version: 18
           registry-url: https://registry.npmjs.org/
       - run: |
-             lerna publish --no-private --dry-run
+             lerna publish from-package --no-private --dry-run
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
