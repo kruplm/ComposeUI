@@ -1,7 +1,7 @@
 on:
   release:
     types: [ published ]
-    branches: [ main ]
+    branches: [ main, dummy-release ]
 
   workflow_call:
   workflow_dispatch:
