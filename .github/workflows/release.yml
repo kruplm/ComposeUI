@@ -58,6 +58,6 @@ jobs:
           node-version: 18
           registry-url: https://registry.npmjs.org/
       - run: |
-             lerna publish --no-private --dry-run
+             lerna publish from-package --no-private --yes
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
