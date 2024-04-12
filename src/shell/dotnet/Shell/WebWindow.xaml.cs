@@ -127,11 +127,17 @@ public partial class WebWindow : Window
     private LifetimeEventType _lifetimeEvent = LifetimeEventType.Started;
     private readonly TaskCompletionSource _scriptInjectionCompleted = new();
     private readonly List<IDisposable> _disposables = new();
+     
 
     private async Task InitializeAsync()
     {
-        await WebView.EnsureCoreWebView2Async();
+        var env = await CoreWebView2Environment.CreateAsync(options: new CoreWebView2EnvironmentOptions("--remote-debugging-port=9222"));
+       // await webView.EnsureCoreWebView2Async(env);
+       // webView.Source = new Uri("https://www.microsoft.com");
+
+        await WebView.EnsureCoreWebView2Async(env);
         await InitializeCoreWebView2(WebView.CoreWebView2);
+        
         await LoadWebContentAsync(_options);
     }
 
@@ -160,6 +166,7 @@ public partial class WebWindow : Window
 
     private Task InitializeCoreWebView2(CoreWebView2 coreWebView)
     {
+       // coreWebView.r
         coreWebView.NewWindowRequested += (sender, args) => OnNewWindowRequested(args);
         coreWebView.WindowCloseRequested += (sender, args) => OnWindowCloseRequested(args);
         coreWebView.NavigationStarting += (sender, args) => OnNavigationStarting(args); 
@@ -248,6 +255,8 @@ public partial class WebWindow : Window
         window.Show();
         await window.WebView.EnsureCoreWebView2Async();
         e.NewWindow = window.WebView.CoreWebView2;
+
+       // window.
     }
 
     private void OnWindowCloseRequested(object args)
