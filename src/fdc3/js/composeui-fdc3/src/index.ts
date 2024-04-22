@@ -24,20 +24,14 @@ export default fdc3;
 
 */
 
-import { createAgent } from '@connectifi/agent-web';
+import { createAgent } from "@connectifi/agent-web";
 
-async function agent() {
-    window.addEventListener('DOMContentLoaded', async() => {
-    const appId = '*@sandbox';
-    const interopEndpoint = 'https://dev.connectifi-interop.com';
-    (window as any).fdc3 = await createAgent(interopEndpoint, appId);
-    console.log("!!!");
-    });
-}
-//(window as any).fdc3 = agent();
-
-//let a = agent();
-//
-agent();
-//export default a;
-//export default agent();
+document.addEventListener('DOMContentLoaded', async () => {
+    // if not in Connectifi's tunnel, start the agent 
+    const docPath = document.location.pathname.toLowerCase();
+    if (docPath !== 'blank' && !docPath.startsWith('/api/tunnel/'))
+    {
+        const fdc3 = await createAgent("https://dev.connectifi-interop.com", "test@sandbox") as any;
+        window.fdc3 = fdc3;
+    }
+});
