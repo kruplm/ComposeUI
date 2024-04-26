@@ -214,7 +214,12 @@ public partial class WebWindow : Window
         _scriptsInjected = true;
         var webProperties = _moduleInstance?.GetProperties().OfType<WebStartupProperties>().FirstOrDefault();
 
-        if (webProperties != null)
+        var sourceUri = new Uri(coreWebView.Source);
+
+        var noInject = sourceUri.PathAndQuery.StartsWith("blank") || sourceUri.PathAndQuery.StartsWith("/api/tunnel/");
+
+
+        if (!noInject && webProperties != null)
         {
             await Task.WhenAll(
                 webProperties.ScriptProviders.Select(
@@ -222,6 +227,10 @@ public partial class WebWindow : Window
                     {
                         var script = await scriptProvider(_moduleInstance!);
                         await coreWebView.AddScriptToExecuteOnDocumentCreatedAsync(script);
+                        //coreWebView.DOMContentLoaded += (sender, args) =>
+                       // {
+                        //coreWebView.PostWebMessageAsJson({ topic: 'connect', appId: '*'});
+                       // }
                     }));
         }
 
