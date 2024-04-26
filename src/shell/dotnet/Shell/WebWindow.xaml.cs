@@ -195,6 +195,14 @@ public partial class WebWindow : Window
             {
                 await InjectScriptsAsync(WebView.CoreWebView2);
 
+                var noInject = args.Uri.StartsWith("blank") || args.Uri.StartsWith("/api/tunnel/");
+                if(!noInject) 
+                {
+                    WebView.CoreWebView2.DOMContentLoaded += (sender, args) =>
+                    {
+                        WebView.CoreWebView2.PostWebMessageAsJson("{ \"topic\": \"connect\", \"appId\": \"test@sandbox\"}");
+                    };
+                }
                 WebView.CoreWebView2.Navigate(args.Uri);
             });
     }
@@ -211,26 +219,21 @@ public partial class WebWindow : Window
         if (_scriptsInjected)
             return;
 
-        _scriptsInjected = true;
+       
         var webProperties = _moduleInstance?.GetProperties().OfType<WebStartupProperties>().FirstOrDefault();
 
         var sourceUri = new Uri(coreWebView.Source);
 
-        var noInject = sourceUri.PathAndQuery.StartsWith("blank") || sourceUri.PathAndQuery.StartsWith("/api/tunnel/");
-
-
-        if (!noInject && webProperties != null)
+        if (webProperties != null)
         {
+            _scriptsInjected = true;
             await Task.WhenAll(
                 webProperties.ScriptProviders.Select(
                     async scriptProvider =>
                     {
                         var script = await scriptProvider(_moduleInstance!);
                         await coreWebView.AddScriptToExecuteOnDocumentCreatedAsync(script);
-                        coreWebView.DOMContentLoaded += (sender, args) =>
-                        {
-                            coreWebView.PostWebMessageAsJson("{ topic: 'connect', appId: '*'}");
-                        };
+
                     }));
         }
 

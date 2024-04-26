@@ -26,12 +26,20 @@ export default fdc3;
 
 import { createAgent } from "@connectifi/agent-web";
 
-document.addEventListener('DOMContentLoaded', async () => {
+//coreWebView.PostWebMessageAsJson("{ topic: 'connect', appId: '*'}");
+console.log("before event");
+(window as any).chrome.webview.addEventListener('message', async (event: MessageEvent) => {
+    console.log("event", event);
+    console.log("event.data.appId", event.data.appId);
+    var appId = event.data.appId;
+
+//document.addEventListener('DOMContentLoaded', async () => {
     // if not in Connectifi's tunnel, start the agent 
     const docPath = document.location.pathname.toLowerCase();
     if (docPath !== 'blank' && !docPath.startsWith('/api/tunnel/'))
     {
-        const fdc3 = await createAgent("https://dev.connectifi-interop.com", "test@sandbox") as any;
+        const fdc3 = await createAgent("https://dev.connectifi-interop.com",  appId) as any;
         window.fdc3 = fdc3;
     }
+    return;
 });
