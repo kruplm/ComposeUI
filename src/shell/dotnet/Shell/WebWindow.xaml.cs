@@ -227,10 +227,10 @@ public partial class WebWindow : Window
                     {
                         var script = await scriptProvider(_moduleInstance!);
                         await coreWebView.AddScriptToExecuteOnDocumentCreatedAsync(script);
-                        //coreWebView.DOMContentLoaded += (sender, args) =>
-                       // {
-                        //coreWebView.PostWebMessageAsJson({ topic: 'connect', appId: '*'});
-                       // }
+                        coreWebView.DOMContentLoaded += (sender, args) =>
+                        {
+                            coreWebView.PostWebMessageAsJson("{ topic: 'connect', appId: '*'}");
+                        };
                     }));
         }
 
