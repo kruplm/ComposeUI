@@ -38,7 +38,7 @@ console.log("before event");
     const docPath = document.location.pathname.toLowerCase();
     if (docPath !== 'blank' && !docPath.startsWith('/api/tunnel/'))
     {
-        const fdc3 = await createAgent("https://dev.connectifi-interop.com",  appId) as any;
+        const fdc3 = await createAgent("https://dev.connectifi-interop.com",  appId, {props: {position: "tr", }, headless: true}) as any; //headless also here
         window.fdc3 = fdc3;
     }
     return;
