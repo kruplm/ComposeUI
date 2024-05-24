@@ -21,7 +21,8 @@
     "@morgan-stanley/composeui-messaging-client": "*",
     "@types/node": "^20.12.6",
     "jest-environment-jsdom": "^29.7.0",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "@connectifi/agent-web": "2.8.15"
   },
   "repository": {
     "type": "git",

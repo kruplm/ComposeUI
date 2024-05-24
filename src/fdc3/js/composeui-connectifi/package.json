@@ -17,7 +17,7 @@
   "author": "Morgan Stanley",
   "license": "Apache-2.0",
   "dependencies": {
-    "@connectifi/agent-web": "2.5.27"
+    "@connectifi/agent-web": "2.8.15"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "25.0.7",
