@@ -33,12 +33,32 @@ console.log("before event");
     console.log("event.data.appId", event.data.appId);
     var appId = event.data.appId;
 
-//document.addEventListener('DOMContentLoaded', async () => {
     // if not in Connectifi's tunnel, start the agent 
     const docPath = document.location.pathname.toLowerCase();
     if (docPath !== 'blank' && !docPath.startsWith('/api/tunnel/'))
-    {
-        const fdc3 = await createAgent("https://dev.connectifi-interop.com",  appId, {props: {position: "tr", }, headless: true}) as any; //headless also here
+    {        
+        const fdc3 = await createAgent("https://dev.connectifi-interop.com",
+        appId,
+        {
+            headless: true,
+            onConnected: () => {
+              console.log("onConnected");
+
+              var payloadObject = {"status": "Connected"};
+              console.log("payloadObject", payloadObject);
+
+              (window as any).chrome.webview.postMessage(payloadObject);
+            },
+            onDisconnected: () => {
+                console.log("onDisconnected");
+                var payloadObject = {"status": "Disconnected"};
+                console.log("payloadObject", payloadObject);
+  
+               (window as any).chrome.webview.postMessage(payloadObject);
+            },
+          }
+        ) as any
+
         window.fdc3 = fdc3;
     }
     return;

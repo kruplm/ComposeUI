@@ -12,5 +12,12 @@
         <DockPanel>
             <wv2:WebView2 Name = "WebView" Source = ""/>
         </DockPanel>
+        <StatusBar Name="sbar" VerticalAlignment="Bottom" Background="Beige" DockPanel.Dock="Bottom" >
+                <StatusBarItem>
+                    <TextBlock x:Name="txtCon" Text="Test"/>
+                </StatusBarItem>
+            </StatusBar>
+        
     </Grid>
 </Window>
+    

@@ -18,12 +18,17 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Finos.Fdc3.AppDirectory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Web.WebView2.Core;
+using MorganStanley.ComposeUI.Messaging;
+using MorganStanley.ComposeUI.Messaging.Protocol;
 using MorganStanley.ComposeUI.ModuleLoader;
 using MorganStanley.ComposeUI.Shell.ImageSource;
 using MorganStanley.ComposeUI.Shell.Utilities;
@@ -34,14 +39,15 @@ namespace MorganStanley.ComposeUI.Shell;
 ///     Interaction logic for WebWindow.xaml
 /// </summary>
 
-public partial class WebWindow : Window
+    public partial class WebWindow : Window
 {
+    //private TimeBase _timeBaseInstance;
     public WebWindow(
         WebWindowOptions options,
         IModuleLoader moduleLoader,
         IModuleInstance? moduleInstance = null,
         ILogger<WebWindow>? logger = null,
-        IImageSourcePolicy? imageSourcePolicy = null)
+        IImageSourcePolicy? imageSourcePolicy = null )
     {
         _moduleLoader = moduleLoader;
         _moduleInstance = moduleInstance;
@@ -54,6 +60,9 @@ public partial class WebWindow : Window
         Title = options.Title ?? WebWindowOptions.DefaultTitle;
         Width = options.Width ?? WebWindowOptions.DefaultWidth;
         Height = options.Height ?? WebWindowOptions.DefaultHeight;
+
+        txtCon.Text = "Connecting..";
+
         TrySetIconUrl(options);
 
         if (moduleInstance != null)
@@ -139,9 +148,18 @@ public partial class WebWindow : Window
         await InitializeCoreWebView2(WebView.CoreWebView2);
         
         await LoadWebContentAsync(_options);
+        WebView.CoreWebView2.WebMessageReceived += UpdateStatusBar;
     }
 
-    private void DisposeWhenClosed(IDisposable disposable)
+    void UpdateStatusBar(object sender, CoreWebView2WebMessageReceivedEventArgs args)
+    {
+        
+       
+        var payload = args.WebMessageAsJson;
+        txtCon.Text = payload;
+    }
+
+private void DisposeWhenClosed(IDisposable disposable)
     {
         _disposables.Add(disposable);
     }
