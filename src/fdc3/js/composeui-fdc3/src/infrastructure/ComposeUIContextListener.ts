@@ -38,6 +38,7 @@ export class ComposeUIContextListener implements Listener {
     }
 
     public async subscribe(channelId: string, channelType: ChannelType): Promise<void> {
+        console.log("subscribe");
         await this.registerContextListener(channelId, channelType);
         const subscribeTopic = ComposeUITopic.broadcast(channelId, channelType);
         this.unsubscribable = await this.messageRouterClient.subscribe(subscribeTopic, (topicMessage: TopicMessage) => {

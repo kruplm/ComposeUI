@@ -19,6 +19,24 @@
 			}
 		},
 		{
+			"appId": "FINOS FDC3 Workbench",
+			"name": "FINOS FDC3 Workbench",
+			"type": "web",
+			"details": {
+				"url": "https://fdc3.finos.org/toolbox/fdc3-workbench/"
+			},
+			"icons": [
+				{
+					"src": "https://fdc3.finos.org/toolbox/fdc3-workbench/favicon.ico",
+					"size": "256x256",
+					"type": "image/png"
+				}
+			],
+			"interop": {
+				"intents": {}
+			}
+		},
+		{
 			"appId": "Conformance2",
 			"name": "Conformance2",
 			"title": "FDC3 2.0 Conformance Framework",

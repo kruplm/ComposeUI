@@ -101,6 +101,7 @@ export class ComposeUIDesktopAgent implements DesktopAgent {
     }
 
     public async addContextListener(contextType?: string | null | ContextHandler, handler?: ContextHandler): Promise<Listener> {
+        console.log("addContextListener");
         if (contextType && typeof contextType != 'string') {
             handler = contextType;
             contextType = null;
@@ -113,7 +114,8 @@ export class ComposeUIDesktopAgent implements DesktopAgent {
             return listener;
         }
 
-        await this.getLastContext(listener);
+        let prom = await this.getLastContext(listener);
+        console.log("\tprom", prom);
 
         return listener;
     }
@@ -123,6 +125,7 @@ export class ComposeUIDesktopAgent implements DesktopAgent {
     }
 
     public async joinUserChannel(channelId: string): Promise<void> {
+        console.log("joinUserChannel");
         if (this.currentChannel) {
             //DesktopAgnet clients can listen on only one channel
             await this.leaveCurrentChannel();
@@ -140,9 +143,12 @@ export class ComposeUIDesktopAgent implements DesktopAgent {
         this.addChannel(channel);
         this.currentChannel = channel;
 
-        for (const listener of this.topLevelContextListeners) {
-            await listener.subscribe(this.currentChannel.id, this.currentChannel.type);
-            await this.getLastContext(listener);
+        for (const listener of this.topLevelContextListeners) { //not called
+            console.log("for loop");
+            let sub = await listener.subscribe(this.currentChannel.id, this.currentChannel.type);
+            console.log("\tsub", sub);
+            let prom = await this.getLastContext(listener);
+            console.log("\tprom", prom);
         }
     }
 
@@ -211,11 +217,23 @@ export class ComposeUIDesktopAgent implements DesktopAgent {
     }
 
     private async getLastContext(listener: ComposeUIContextListener) : Promise<void> {
+        console.log("getLastContext");
         const lastContext = await this.currentChannel!.getCurrentContext(listener.contextType);
+        console.log("\tlastContext", lastContext);
 
         if (lastContext) {
+            console.log("\t === if lastContext ===");
             //TODO: timing issue
-            setTimeout(async() => await listener.handleContextMessage(lastContext), 100);
+          //  setTimeout(async() => await listener.handleContextMessage(lastContext), 100);
+        
+
+
+          //async() => await listener.handleContextMessage(lastContext);
+          //console.log("#####");
+          //setImmediate(async() => await listener.handleContextMessage(lastContext)) not working
+
+          async() => await listener.handleContextMessage(lastContext);
+          console.log("%%%");
         }
     }
 }
