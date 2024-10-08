@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 ********************************************************************************************************
 Morgan Stanley makes this available to you under the Apache License, Version 2.0 (the "License").
 You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -15,9 +15,96 @@ See the License for the specific language governing permissions and limitations 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
-        xmlns:local="clr-namespace:MorganStanley.ComposeUI.Shell"
-        mc:Ignorable="d">
+        xmlns:local="clr-namespace:MorganStanley.ComposeUI.Shell" 
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+>
     <ContentPresenter.Content>
-         <wv2:WebView2 Name = "WebView" Source = "" />
+
+
+        <Grid x:Name="LayoutRoot">
+           <!-- <StackPanel Grid.Row="1">-->
+            <DockPanel>
+                <!---->
+                <!--<wv2:WebView2 Name = "WebView" Source = "" Grid.Row="1"/> -->
+                <!-- <Canvas Top="0" Left="0"  Background="Blue" Width="2000" Height="1500"></Canvas> -->
+                <wv2:WebView2CompositionControl Name = "WebView" Source = "" Grid.Row="1"/>
+            </DockPanel>
+
+            <materialDesign:PopupBox  Panel.ZIndex="100"
+                    x:Name="ChannelSelector"
+                Grid.Row="3"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                
+                Style="{StaticResource MaterialDesignMultiFloatingActionSecondaryPopupBox}"
+                ToggleCheckedContentCommand="{Binding FloatingActionDemoCommand}"
+                ToggleCheckedContentCommandParameter="wowsers"
+                ToolTip="PopupBox, Style MaterialDesignMultiFloatingActionSecondaryPopupBox">
+                    <materialDesign:PopupBox.ToggleCheckedContent>
+                        <materialDesign:PackIcon
+                            Width="24"
+                            Height="24"
+                            Kind="Pencil" />
+                    </materialDesign:PopupBox.ToggleCheckedContent>
+                    <StackPanel>
+                        <Button
+                            Content="1"
+                            ToolTip="One" />
+                        <Button
+                            Content="2"
+                            IsEnabled="False"
+                            ToolTip="Two" />
+                        <Button
+                            Content="3"
+                            ToolTip="Three" />
+                        <Button
+                            Content="4"
+                            ToolTip="Four" />
+                        <Button
+                            Content="5"
+                            ToolTip="Five" />
+                        <Button
+                            Content="6"
+                            ToolTip="Six" />
+                        <Button
+                            Content="7"
+                            ToolTip="Seven" />
+                        <Button
+                            Content="8"
+                            ToolTip="Eight" />
+
+                        
+                    </StackPanel>
+                    
+                </materialDesign:PopupBox>
+           <!-- </Popup> -->
+            <!--</Grid> -->
+            <!-- </StackPanel> -->
+            <!--
+
+            <Button
+              materialDesign:ButtonProgressAssist.IndicatorBackground="#ffcc80"
+              materialDesign:ButtonProgressAssist.IndicatorForeground="#e65100"
+              materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+              materialDesign:ButtonProgressAssist.Value="25"
+              Background="#81d4fa"
+              BorderBrush="#81d4fa"
+              Content="{materialDesign:PackIcon DotsHorizontal}"
+              Foreground="#DD000000"
+              IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+              Style="{StaticResource MaterialDesignFloatingActionButton}" 
+                />
+            
+            -->
+            <StatusBar Name="sbar" VerticalAlignment="Bottom" Background="Beige" DockPanel.Dock="Bottom" >
+                <StatusBarItem>
+                    <TextBlock x:Name="txtCon" Text="Test"/>
+                </StatusBarItem>
+            </StatusBar>
+        </Grid>
+        
+
     </ContentPresenter.Content>
 </ContentPresenter>
