@@ -30,56 +30,73 @@ See the License for the specific language governing permissions and limitations 
                 <!-- <Canvas Top="0" Left="0"  Background="Blue" Width="2000" Height="1500"></Canvas> -->
                 <wv2:WebView2CompositionControl Name = "WebView" Source = "" Grid.Row="1"/>
             </DockPanel>
-
             <materialDesign:PopupBox  Panel.ZIndex="100"
                     x:Name="ChannelSelector"
                 Grid.Row="3"
                 VerticalAlignment="Bottom"
-                HorizontalAlignment="Right"
+                BorderBrush="Gray"          
+                BorderThickness="8.0"
+                HorizontalAlignment="Left"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                 
                 Style="{StaticResource MaterialDesignMultiFloatingActionSecondaryPopupBox}"
                 ToggleCheckedContentCommand="{Binding FloatingActionDemoCommand}"
                 ToggleCheckedContentCommandParameter="wowsers"
                 ToolTip="PopupBox, Style MaterialDesignMultiFloatingActionSecondaryPopupBox">
-                    <materialDesign:PopupBox.ToggleCheckedContent>
-                        <materialDesign:PackIcon
+                <materialDesign:PopupBox.ToggleCheckedContent>
+                    <materialDesign:PackIcon
                             Width="24"
                             Height="24"
                             Kind="Pencil" />
-                    </materialDesign:PopupBox.ToggleCheckedContent>
-                    <StackPanel>
-                        <Button
+                </materialDesign:PopupBox.ToggleCheckedContent>
+                <StackPanel>
+                    <Button
                             Content="1"
-                            ToolTip="One" />
-                        <Button
+                            ToolTip="One" 
+                            Background="Red"
+                            Click="Button_Click"
+                            />
+                    <Button
                             Content="2"
-                            IsEnabled="False"
+                            Background="Green"
+                            Click="Button_Click"
                             ToolTip="Two" />
-                        <Button
+                    <Button
                             Content="3"
+                            Background="Yellow"
+                            Click="Button_Click"
                             ToolTip="Three" />
-                        <Button
+                    <Button
                             Content="4"
+                            Background="Orange"
+                            Click="Button_Click"
                             ToolTip="Four" />
-                        <Button
+                    <Button
                             Content="5"
+                            Background="Blue"
+                            Click="Button_Click"
                             ToolTip="Five" />
-                        <Button
+                    <Button
                             Content="6"
+                            Background="Azure"
+                            Click="Button_Click"
                             ToolTip="Six" />
-                        <Button
+                    <Button
                             Content="7"
+                            Background="Purple"
+                            Click="Button_Click"
                             ToolTip="Seven" />
-                        <Button
+                    <Button
                             Content="8"
+                            Background="Brown"
+                            Click="Button_Click"
                             ToolTip="Eight" />
 
-                        
-                    </StackPanel>
-                    
-                </materialDesign:PopupBox>
-           <!-- </Popup> -->
+
+                </StackPanel>
+
+            </materialDesign:PopupBox>
+            <!-- </Popup> -->
             <!--</Grid> -->
             <!-- </StackPanel> -->
             <!--
