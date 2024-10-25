@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
@@ -238,5 +239,14 @@ public partial class WebContent : ContentPresenter, IDisposable
         {
             disposable.Dispose();
         }
+    }
+
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+        Button btn = (Button) sender;
+        var channelNumber = btn.Content;
+        var color = btn.Background;
+        
+        ChannelSelector.BorderBrush = color;
     }
 }
