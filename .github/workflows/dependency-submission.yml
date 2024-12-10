@@ -18,4 +18,5 @@ jobs:
         uses: advanced-security/component-detection-dependency-submission-action@v0.0.4
         with:
           detectorsFilter: "Npm,NuGet"
+          filePath: "."
          
