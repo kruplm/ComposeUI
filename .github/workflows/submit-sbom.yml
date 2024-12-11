@@ -2,8 +2,8 @@ name: SBOM upload
 
 on:
   workflow_dispatch:
-  push:
-    branches: ["main"]
+  #push:
+  #  branches: ["main"]
 
 jobs:
   SBOM-upload:
@@ -19,7 +19,7 @@ jobs:
       # generation command documentation: https://github.com/microsoft/sbom-tool#sbom-generation
       run: |
         Invoke-WebRequest -Uri "https://github.com/microsoft/sbom-tool/releases/latest/download/sbom-tool-win-x64.exe" -OutFile "sbom-tool.exe"
-        $RUNNER_TEMP/sbom-tool generate -b . -bc . -pn $ -pv 1.0.0 -ps OwnerName -nsb https://sbom.test.com -V Verbose
+        sbom-tool.exe generate -b . -bc . -pn $ -pv 1.0.0 -ps OwnerName -nsb https://sbom.test.com -V Verbose
     - uses: actions/upload-artifact@v4
       with:
         name: sbom
