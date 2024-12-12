@@ -3,7 +3,7 @@ name: Dependency Submission
 
 on:
   workflow_dispatch:
-  push:
+  #push:
 
 permissions: 
   id-token: write
@@ -14,6 +14,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Create csproj from props
+        run:  Copy-Item .\Directory.Packages.props -Destination .\Directory.Packages.csproj
       - name: Component detection 
         uses: advanced-security/component-detection-dependency-submission-action@v0.0.4
         with:
