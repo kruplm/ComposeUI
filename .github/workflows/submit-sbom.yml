@@ -15,11 +15,28 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Create csproj from props
+      run:  Copy-Item .\Directory.Packages.props -Destination .\Directory.Packages.csproj
+    - name: amend csproj
+      run: | 
+              $file = Get-Content .\Directory.Packages.csproj
+              $file | ForEach-Object {
+                if($_.ReadCount -eq 1){ 
+                  $_ -replace '<Project>', '<Project Sdk="Microsoft.NET.Sdk">'
+                } else {
+                  $_
+                }
+               } | Set-Content .\Directory.Packages.csproj 
+    - name: add csproj to a build-time temp solution
+      run: |
+              dotnet new sln --name cve-detection
+              dotnet sln .\cve-detection.sln add .\Directory.Packages.csproj
+    
     - name: Generate SBOM
       # generation command documentation: https://github.com/microsoft/sbom-tool#sbom-generation
       run: |
         Invoke-WebRequest -Uri "https://github.com/microsoft/sbom-tool/releases/latest/download/sbom-tool-win-x64.exe" -OutFile "sbom-tool.exe"
-        .\sbom-tool.exe generate -b . -bc . -pn $ -pv 1.0.0 -ps OwnerName -nsb https://sbom.test.com -V Verbose
+        .\sbom-tool.exe generate -b . -bc . -pn $ -pv 1.0.0 -ps OwnerName  -V Verbose
     - uses: actions/upload-artifact@v4
       with:
         name: sbom
