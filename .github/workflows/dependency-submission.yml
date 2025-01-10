@@ -14,25 +14,28 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Create csproj from props
-        run:  Copy-Item .\Directory.Packages.props -Destination .\Directory.Packages.csproj
-      - name: amend csproj
-        run: | 
-              $file = Get-Content .\Directory.Packages.csproj
-              $file | ForEach-Object {
-                if($_.ReadCount -eq 1){ 
-                  $_ -replace '<Project>', '<Project Sdk="Microsoft.NET.Sdk">'
-                } else {
-                  $_
-                }
-               } | Set-Content .\Directory.Packages.csproj 
-      - name: add csproj to a build-time temp solution
+      #- name: Create csproj from props
+      #  run:  Copy-Item .\Directory.Packages.props -Destination .\Directory.Packages.csproj
+      #- name: amend csproj
+      #  run: | 
+      #        $file = Get-Content .\Directory.Packages.csproj
+      #        $file | ForEach-Object {
+      #          if($_.ReadCount -eq 1){ 
+      #            $_ -replace '<Project>', '<Project Sdk="Microsoft.NET.Sdk">'
+      #          } else {
+      #            $_
+      #          }
+      #         } | Set-Content .\Directory.Packages.csproj 
+      #- name: add csproj to a build-time temp solution
+      #  run: |
+      #        dotnet new sln --name cve-detection
+      #        dotnet sln .\cve-detection.sln add .\Directory.Packages.csproj
+      - name: Build Components
         run: |
-              dotnet new sln --name cve-detection
-              dotnet sln .\cve-detection.sln add .\Directory.Packages.csproj
+              powershell ./build/dotnet-build.ps1
       - name: Component detection 
         uses: advanced-security/component-detection-dependency-submission-action@v0.0.4
         with:
           detectorsFilter: "Npm,NuGet"
-          filePath: "."
+          #filePath: "."
          
