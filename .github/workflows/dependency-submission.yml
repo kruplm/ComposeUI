@@ -32,6 +32,9 @@ jobs:
       #        dotnet sln .\cve-detection.sln add .\Directory.Packages.csproj
       - name: Build Components
         run: |
+              npm i
+              npx lerna run build --stream
+              powershell ./build/dotnet-restore.ps1
               powershell ./build/dotnet-build.ps1
       - name: Component detection 
         uses: advanced-security/component-detection-dependency-submission-action@v0.0.4
