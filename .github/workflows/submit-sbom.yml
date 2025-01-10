@@ -1,0 +1,30 @@
+name: SBOM upload
+
+on:
+  workflow_dispatch:
+  #push:
+  #  branches: ["main"]
+
+jobs:
+  SBOM-upload:
+
+    runs-on: windows-latest
+    permissions:
+      id-token: write
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Generate SBOM
+      # generation command documentation: https://github.com/microsoft/sbom-tool#sbom-generation
+      run: |
+        Invoke-WebRequest -Uri "https://github.com/microsoft/sbom-tool/releases/latest/download/sbom-tool-win-x64.exe" -OutFile "sbom-tool.exe"
+        .\sbom-tool.exe generate -b . -bc . -pn $ -pv 1.0.0 -ps OwnerName  -V Verbose
+    - uses: actions/upload-artifact@v4
+      with:
+        name: sbom
+        path: _manifest/spdx_2.2
+    - name: SBOM upload
+      uses: advanced-security/spdx-dependency-submission-action@v0.1.1
+      with:
+        filePath: "_manifest/spdx_2.2/"
