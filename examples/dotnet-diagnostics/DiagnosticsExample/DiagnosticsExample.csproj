@@ -13,7 +13,8 @@ See the License for the specific language governing permissions and limitations 
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>$(TargetFrameworkVersion)-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
