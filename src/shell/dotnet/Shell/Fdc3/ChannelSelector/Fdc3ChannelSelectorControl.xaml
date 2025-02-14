@@ -20,6 +20,7 @@
             Style="{StaticResource MaterialDesignMultiFloatingActionSecondaryPopupBox}"
             ToggleCheckedContentCommand="{Binding FloatingActionDemoCommand}"
             ToggleCheckedContentCommandParameter="wowsers"
+            
             ToolTip="PopupBox, Style MaterialDesignMultiFloatingActionSecondaryPopupBox">
 
             <StackPanel>
@@ -28,41 +29,52 @@
                     ToolTip="One" 
                     Background="Red"
                     Click="Button_Click"
+                    Command="{Binding JoinChannelCommand}"
+                   
                 />
                 <Button
                     Content="2"
                     Background="Green"
                     Click="Button_Click"
+                    Command="{Binding JoinChannelCommand}"
                     ToolTip="Two" />
+                
                 <Button
                     Content="3"
                     Background="Yellow"
                     Click="Button_Click"
+                    Command="{Binding JoinChannelCommand}"
                     ToolTip="Three" />
                 <Button
                     Content="4"
                     Background="Orange"
                     Click="Button_Click"
+                    Command="{Binding JoinChannelCommand}"
                     ToolTip="Four" />
                 <Button
                     Content="5"
                     Background="Blue"
                     Click="Button_Click"
+                    Command="{Binding JoinChannelCommand}"
                     ToolTip="Five" />
                 <Button
                     Content="6"
                     Background="Azure"
                     Click="Button_Click"
+                    Command="{Binding JoinChannelCommand}"
                     ToolTip="Six" />
                 <Button
                     Content="7"
                     Background="Purple"
                     Click="Button_Click"
+                    Command="{Binding JoinChannelCommand}"
+                    
                     ToolTip="Seven" />
                 <Button
                     Content="8"
                     Background="Brown"
                     Click="Button_Click"
+                    Command="{Binding JoinChannelCommand}"
                     ToolTip="Eight" />
             </StackPanel>
         </materialDesign:PopupBox>

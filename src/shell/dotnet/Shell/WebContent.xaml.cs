@@ -1,4 +1,4 @@
-// /*
+﻿// /*
 //  * Morgan Stanley makes this available to you under the Apache License,
 //  * Version 2.0 (the "License"). You may obtain a copy of the License at
 //  *
@@ -241,12 +241,5 @@ public partial class WebContent : ContentPresenter, IDisposable
         }
     }
 
-    private void Button_Click(object sender, RoutedEventArgs e)
-    {
-        Button btn = (Button) sender;
-        var channelNumber = btn.Content;
-        var color = btn.Background;
-        
-        ChannelSelector.BorderBrush = color;
-    }
+
 }

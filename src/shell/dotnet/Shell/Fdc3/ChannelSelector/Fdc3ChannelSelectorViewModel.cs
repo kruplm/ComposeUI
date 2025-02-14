@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Finos.Fdc3;
+//using Prism.Commands; TODO: Use MVVM Toolkit
 
 
 namespace MorganStanley.ComposeUI.Shell.Fdc3.ChannelSelector
