@@ -26,6 +26,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using MorganStanley.ComposeUI.Fdc3.AppDirectory;
+using MorganStanley.ComposeUI.Fdc3.DesktopAgent;
 using MorganStanley.ComposeUI.Fdc3.DesktopAgent.DependencyInjection;
 using MorganStanley.ComposeUI.Messaging;
 using MorganStanley.ComposeUI.ModuleLoader;
@@ -202,6 +203,8 @@ public partial class App : Application
                 services.AddFdc3AppDirectory();
                 services.AddSingleton<Fdc3ResolverUIWindow>();
                 services.AddSingleton<IResolverUIProjector>(p => p.GetRequiredService<Fdc3ResolverUIWindow>());
+                //add service
+                services.AddSingleton<IChannelSelectorCommunicator, ChannelSelectorMessageRouterShellCommunicator>();
                 services.AddHostedService<ResolverUIService>();
                 services.AddHostedService<Fdc3ChannelSelectorSerice>();
                 services.Configure<Fdc3Options>(fdc3ConfigurationSection);
