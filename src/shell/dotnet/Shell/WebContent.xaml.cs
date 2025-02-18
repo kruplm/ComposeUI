@@ -29,6 +29,8 @@ using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 using MorganStanley.ComposeUI.ModuleLoader;
 using MorganStanley.ComposeUI.Shell.ImageSource;
+using System.Windows.Controls.Primitives;
+using Windows.UI.Popups;
 
 namespace MorganStanley.ComposeUI.Shell;
 
@@ -135,6 +137,7 @@ public partial class WebContent : ContentPresenter, IDisposable
         coreWebView.WindowCloseRequested += (sender, args) => OnWindowCloseRequested(args);
         coreWebView.NavigationStarting += (sender, args) => OnNavigationStarting(args);
         coreWebView.DocumentTitleChanged += (sender, args) => OnDocumentTitleChanged(args);
+        //coreWebView.WebMessageReceived += (sender, args) => OnWebMessageReceived(args);
 
         await Dispatcher.InvokeAsync(
             async () =>
@@ -142,6 +145,20 @@ public partial class WebContent : ContentPresenter, IDisposable
                 await InjectScriptsAsync(coreWebView);
             });
     }
+
+    /*private async void OnWebMessageReceived(CoreWebView2WebMessageReceivedEventArgs args)
+    {
+
+        var message = args.TryGetWebMessageAsString();
+        if (message == "fdc3.channel.1")
+        {
+            //CloseRequested.Invoke(this, EventArgs.Empty);
+            //Dialog("foo");
+
+            //var msg = new MessageDialog("Some String here", "Title of Message Box");
+           // await msg.ShowAsync();
+        }
+    }*/
 
     private void OnDocumentTitleChanged(object args)
     {

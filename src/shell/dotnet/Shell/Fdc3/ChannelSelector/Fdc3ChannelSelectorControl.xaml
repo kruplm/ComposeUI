@@ -30,6 +30,7 @@
                     Background="Red"
                     Click="Button_Click"
                     Command="{Binding JoinChannelCommand}"
+                    CommandParameter="1"
                    
                 />
                 <Button

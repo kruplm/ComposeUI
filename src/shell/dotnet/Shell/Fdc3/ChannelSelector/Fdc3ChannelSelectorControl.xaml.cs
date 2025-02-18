@@ -22,26 +22,34 @@ namespace MorganStanley.ComposeUI.Shell.Fdc3.ChannelSelector
     public partial class Fdc3ChannelSelectorControl : UserControl
     {
         private readonly Fdc3ChannelSelectorViewModel? _viewModel;
-        //This is just testing the connection, the DA shouldn§t be passed to the UserControl
-        //private readonly Fdc3DesktopAgent _desktopAgent; //=
 
+        
+        public Fdc3ChannelSelectorControl()
+        {
+            
+            this.DataContext = this;
+            InitializeComponent();
+        }
+        
+        //todo remove
         public Fdc3ChannelSelectorControl(Fdc3ChannelSelectorViewModel? viewModel)
         {
-
+            InitializeComponent();
             _viewModel = viewModel;
-           
+
             this.DataContext = this;
-            InitializeComponent();
+            
 
         }
-
-        public Fdc3ChannelSelectorControl() {
-            this.DataContext = this;
+        //this const
+        public Fdc3ChannelSelectorControl(IChannelSelectorCommunicator channelSelectorCommunicator) {
             InitializeComponent();
+            _viewModel = new Fdc3ChannelSelectorViewModel(channelSelectorCommunicator);
+            this.DataContext = this;
+            
         }
 
-        //TODO: populate the list from GetUserChannelSet() instead of providing static data in the xaml
-        //private void initializeChannelSelector()
+
 
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -50,14 +58,10 @@ namespace MorganStanley.ComposeUI.Shell.Fdc3.ChannelSelector
             var channelNumber = (string)btn.Content;
             var color = btn.Background;
 
+            _viewModel.ChannelSelector.SendChannelSelectorRequest(channelNumber, channelNumber); //todo instanceid
+
             ChannelSelector.BorderBrush = color;
 
-            
-            
-            //this is just for proving we can connect to the DA, and switch channels. Once this works, we populate this with the selected channel ID
-
-
-            //_desktopAgent.JoinUserChannel("fdc3.channel."+channelNumber );
         }
     }
 }

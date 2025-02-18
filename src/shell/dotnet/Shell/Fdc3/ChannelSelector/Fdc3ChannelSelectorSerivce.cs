@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using Finos.Fdc3;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MorganStanley.ComposeUI.Fdc3.DesktopAgent;
 using MorganStanley.ComposeUI.Fdc3.DesktopAgent.Contracts;
 using MorganStanley.ComposeUI.Fdc3.DesktopAgent.Converters;
 using MorganStanley.ComposeUI.Messaging;
@@ -32,6 +33,9 @@ internal class Fdc3ChannelSelectorSerice : IHostedService
 
     private readonly List<Func<ValueTask>> _disposeTask = new();
     private readonly IHost _host;
+    private IChannelSelectorCommunicator _channelSelectorComm; //= //new ChannelSelectorCommunicator();  //todo reference to the control or the model.. 
+    //private Fdc3ChannelSelectorControl _channelSelector;  //todo reference to the control or the model.. 
+    private Fdc3ChannelSelectorViewModel _channelSelector;
 
     private readonly JsonSerializerOptions _jsonSerializerOptions = new()
     {
@@ -41,6 +45,7 @@ internal class Fdc3ChannelSelectorSerice : IHostedService
     public Fdc3ChannelSelectorSerice(IHost host)
     {
         _host = host;
+        _channelSelector = new Fdc3ChannelSelectorViewModel(_channelSelectorComm);
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
@@ -72,7 +77,7 @@ internal class Fdc3ChannelSelectorSerice : IHostedService
         var messageRouter = _host.Services.GetRequiredService<IMessageRouter>();
 
         await messageRouter.RegisterServiceAsync(
-            "ComposeUI/fdc3/v2.0/joinUserChannel",  //userchannelselector
+            "ComposeUI/fdc3/v2.0/channelSelector", //joinUserChannel
             async (endpoint, payload, context) =>
             {
                 var request = payload?.ReadJson<JoinUserChannelRequest>(_jsonSerializerOptions); //Todo delete ChannelSelectorRequest
@@ -106,7 +111,9 @@ internal class Fdc3ChannelSelectorSerice : IHostedService
 
     private ValueTask<JoinUserChannelResponse> JoinUserChannel(string channelId)
     {
-        //messageRouter.
+        //_channelSelector.
+        
+        //_channelSelector.SendChannelSelectorRequest(channelId, channelId); //todo params
         return new ValueTask<JoinUserChannelResponse>(); //todo replace fake return value
     }
 

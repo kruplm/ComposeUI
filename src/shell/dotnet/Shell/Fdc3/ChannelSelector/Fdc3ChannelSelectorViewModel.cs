@@ -5,42 +5,39 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Finos.Fdc3;
-//using Prism.Commands; TODO: Use MVVM Toolkit
+using MorganStanley.ComposeUI.Fdc3.DesktopAgent;
+using CommunityToolkit.Mvvm.Input;
+using System.Windows;
 
 
 namespace MorganStanley.ComposeUI.Shell.Fdc3.ChannelSelector
 {
     public class Fdc3ChannelSelectorViewModel
     {
-        private readonly IDesktopAgent _desktopAgent;
+        public IChannelSelectorCommunicator ChannelSelector;
         private ICommand? _joinChannelCommand;
+        public ICommand SelectCurrentChannelCommand { get; }
 
 
-        public Fdc3ChannelSelectorViewModel(IDesktopAgent desktopAgent)
+        public Fdc3ChannelSelectorViewModel(IChannelSelectorCommunicator channelSelector)
         {
-            _desktopAgent = desktopAgent;
+            ChannelSelector = channelSelector;
+            //SelectCurrentChannelCommand = new RelayCommand(SelectCurrentChannelClick);
         }
 
-        public IEnumerable<IChannel>? AvailableChannels
-        {
-            get { return _desktopAgent?.GetUserChannels()?.Result; }
-        }
 
         public IChannel? SelectedChannel { get; set; }
 
-        /*public ICommand JoinChannelCommand
+        //Todo: Implement Command
+        public ICommand JoinChannelCommand
         {
             get
             {
-                return _joinChannelCommand ?? (_joinChannelCommand = new DelegateCommand(() =>
+                return _joinChannelCommand ?? (_joinChannelCommand = new RelayCommand(() =>
                 {
-                    if (this.SelectedChannel != null)
-                    {
-                        _desktopAgent.JoinUserChannel(this.SelectedChannel.Id);
-                    }
                 }));
             }
-        }*/
+        }
 
     }
 
