@@ -51,6 +51,11 @@ namespace MorganStanley.ComposeUI.Fdc3.DesktopAgent.Tests.Infrastructure.Interna
             _logger = logger ?? NullLogger<ChannelSelectorDesktopAgentCommunicator>.Instance;
         }
 
+        public Task<ChannelSelectorResponse?> SendChannelSelectorColorUpdateRequest(JoinUserChannelRequest request, string? color, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ChannelSelectorResponse?> SendChannelSelectorRequest(string channelId, string instanceId, CancellationToken cancellationToken = default)
         {
             try
@@ -70,6 +75,8 @@ namespace MorganStanley.ComposeUI.Fdc3.DesktopAgent.Tests.Infrastructure.Interna
                 };
             }
         }
+
+       
 
 
         //p//ublic string ChannelId { get; set; }
