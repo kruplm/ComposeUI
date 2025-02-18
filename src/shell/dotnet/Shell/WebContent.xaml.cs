@@ -31,6 +31,9 @@ using MorganStanley.ComposeUI.ModuleLoader;
 using MorganStanley.ComposeUI.Shell.ImageSource;
 using System.Windows.Controls.Primitives;
 using Windows.UI.Popups;
+using MorganStanley.ComposeUI.Shell.Fdc3.ChannelSelector;
+using MorganStanley.ComposeUI.Fdc3.DesktopAgent;
+using MorganStanley.ComposeUI.Messaging;
 
 namespace MorganStanley.ComposeUI.Shell;
 
@@ -52,6 +55,8 @@ public partial class WebContent : ContentPresenter, IDisposable
         _options = options;
         _logger = logger ?? NullLogger<WebContent>.Instance;
         InitializeComponent();
+        //_messageRouter = ((App) Application.Current).ServiceProvider.GetService<IMessageRouter>();
+        _messageRouter = ((App) Application.Current).GetService<IMessageRouter>();
 
         // TODO: When no title is set from options, we should show the HTML document's title instead
         Title = options.Title ?? WebWindowOptions.DefaultTitle;
@@ -96,6 +101,7 @@ public partial class WebContent : ContentPresenter, IDisposable
     private LifetimeEventType _lifetimeEvent = LifetimeEventType.Started;
     private readonly TaskCompletionSource _scriptInjectionCompleted = new();
     private readonly List<IDisposable> _disposables = new();
+    private IMessageRouter? _messageRouter;
 
     public WebWindowOptions Options => _options;
 
@@ -237,6 +243,14 @@ public partial class WebContent : ContentPresenter, IDisposable
        var window = App.Current.CreateWebContent(constructorArgs.ToArray());
         await window.WebView.EnsureCoreWebView2Async();
         e.NewWindow = window.WebView.CoreWebView2;
+
+        
+        IChannelSelectorCommunicator channelSelectorCommunicator = new ChannelSelectorMessageRouterShellCommunicator(_messageRouter);
+        var fdc3ChannelSelectorControl = new Fdc3ChannelSelectorControl(channelSelectorCommunicator);
+
+
+        LayoutRoot.Children.Add(fdc3ChannelSelectorControl);
+    
     }
 
     private void OnWindowCloseRequested(object args)

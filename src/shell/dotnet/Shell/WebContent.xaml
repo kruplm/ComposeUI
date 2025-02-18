@@ -28,7 +28,7 @@ See the License for the specific language governing permissions and limitations 
                 <!--<wv2:WebView2 Name = "WebView" Source = "" Grid.Row="1"/> -->
                 <wv2:WebView2CompositionControl Name = "WebView" Source = "" Grid.Row="1"/>
             </DockPanel>
-            <channelselector:Fdc3ChannelSelectorControl></channelselector:Fdc3ChannelSelectorControl>
+            <!--<channelselector:Fdc3ChannelSelectorControl></channelselector:Fdc3ChannelSelectorControl>-->
             
         </Grid>
 
