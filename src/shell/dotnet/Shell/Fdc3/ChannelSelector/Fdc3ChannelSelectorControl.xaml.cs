@@ -34,11 +34,11 @@ namespace MorganStanley.ComposeUI.Shell.Fdc3.ChannelSelector
         //todo remove
       
         //this const
-        public Fdc3ChannelSelectorControl(IChannelSelectorCommunicator channelSelectorCommunicator) {
-            InitializeComponent();
+        public Fdc3ChannelSelectorControl(IChannelSelectorCommunicator channelSelectorCommunicator) {          
             _viewModel = new Fdc3ChannelSelectorViewModel(channelSelectorCommunicator);
             this.DataContext = this;
-            
+
+            InitializeComponent();
         }
 
 

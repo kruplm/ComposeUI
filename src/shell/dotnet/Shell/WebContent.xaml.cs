@@ -110,6 +110,10 @@ public partial class WebContent : ContentPresenter, IDisposable
         await WebView.EnsureCoreWebView2Async();
         await InitializeCoreWebView2(WebView.CoreWebView2);
         await LoadWebContentAsync(_options);
+
+        IChannelSelectorCommunicator channelSelectorCommunicator = new ChannelSelectorMessageRouterShellCommunicator(_messageRouter);
+        var fdc3ChannelSelectorControl = new Fdc3ChannelSelectorControl(channelSelectorCommunicator);
+        LayoutRoot.Children.Add(fdc3ChannelSelectorControl);
     }
 
     private void DisposeWhenClosed(IDisposable disposable)
@@ -245,11 +249,7 @@ public partial class WebContent : ContentPresenter, IDisposable
         e.NewWindow = window.WebView.CoreWebView2;
 
         
-        IChannelSelectorCommunicator channelSelectorCommunicator = new ChannelSelectorMessageRouterShellCommunicator(_messageRouter);
-        var fdc3ChannelSelectorControl = new Fdc3ChannelSelectorControl(channelSelectorCommunicator);
-
-
-        LayoutRoot.Children.Add(fdc3ChannelSelectorControl);
+       
     
     }
 
