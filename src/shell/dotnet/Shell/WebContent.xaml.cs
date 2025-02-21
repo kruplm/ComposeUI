@@ -34,6 +34,7 @@ using Windows.UI.Popups;
 using MorganStanley.ComposeUI.Shell.Fdc3.ChannelSelector;
 using MorganStanley.ComposeUI.Fdc3.DesktopAgent;
 using MorganStanley.ComposeUI.Messaging;
+using System.Windows.Media;
 
 namespace MorganStanley.ComposeUI.Shell;
 
@@ -92,6 +93,8 @@ public partial class WebContent : ContentPresenter, IDisposable
 
     public System.Windows.Media.ImageSource? Icon { get; private set; }
 
+
+
     private readonly IModuleLoader _moduleLoader;
     private readonly IModuleInstance? _moduleInstance;
     private readonly WebWindowOptions _options;
@@ -115,6 +118,7 @@ public partial class WebContent : ContentPresenter, IDisposable
         var fdc3ChannelSelectorControl = new Fdc3ChannelSelectorControl(channelSelectorCommunicator);
         LayoutRoot.Children.Add(fdc3ChannelSelectorControl);
     }
+
 
     private void DisposeWhenClosed(IDisposable disposable)
     {
@@ -247,10 +251,6 @@ public partial class WebContent : ContentPresenter, IDisposable
        var window = App.Current.CreateWebContent(constructorArgs.ToArray());
         await window.WebView.EnsureCoreWebView2Async();
         e.NewWindow = window.WebView.CoreWebView2;
-
-        
-       
-    
     }
 
     private void OnWindowCloseRequested(object args)

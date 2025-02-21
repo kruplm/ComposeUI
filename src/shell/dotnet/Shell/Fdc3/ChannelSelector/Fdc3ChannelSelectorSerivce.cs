@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using Finos.Fdc3;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -33,9 +34,9 @@ internal class Fdc3ChannelSelectorSerice : IHostedService
 
     private readonly List<Func<ValueTask>> _disposeTask = new();
     private readonly IHost _host;
-    private IChannelSelectorCommunicator _channelSelectorComm; //= //new ChannelSelectorCommunicator();  //todo reference to the control or the model.. 
+    private IChannelSelectorCommunicator _channelSelectorComm; //= new ChannelSelectorMessageRouterShellCommunicator(messageRouter);  //todo reference to the control or the model.. 
     //private Fdc3ChannelSelectorControl _channelSelector;  //todo reference to the control or the model.. 
-    private Fdc3ChannelSelectorViewModel _channelSelector;
+    private Fdc3ChannelSelectorViewModel _channelSelector; //= new Fdc3ChannelSelectorViewModel()
 
     private readonly JsonSerializerOptions _jsonSerializerOptions = new()
     {
@@ -45,7 +46,9 @@ internal class Fdc3ChannelSelectorSerice : IHostedService
     public Fdc3ChannelSelectorSerice(IHost host)
     {
         _host = host;
-        _channelSelector = new Fdc3ChannelSelectorViewModel(_channelSelectorComm);
+        var messageRouter = _host.Services.GetService<IMessageRouter>();
+        _channelSelectorComm = new ChannelSelectorMessageRouterShellCommunicator(messageRouter);
+        _channelSelector = new Fdc3ChannelSelectorViewModel(_channelSelectorComm); //comm is null
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
@@ -80,13 +83,22 @@ internal class Fdc3ChannelSelectorSerice : IHostedService
             "ComposeUI/fdc3/v2.0/channelSelector", //joinUserChannel
             async (endpoint, payload, context) =>
             {
-                var request = payload?.ReadJson<JoinUserChannelRequest>(_jsonSerializerOptions); //Todo delete ChannelSelectorRequest
+                var request = payload?.ReadJson<JoinUserChannelRequest>(_jsonSerializerOptions); 
                 if (request == null)
                 {
                     return null;
                 }
 
-                var response = await JoinUserChannel(request.ChannelId); //todo
+
+                //var response = await UpdateControlColor(request);
+
+
+
+
+
+
+                var response = await JoinUserChannel(request.ChannelId, request.InstanceId); //todo
+                await UpdateControlColor(response);
 
                 return response is null ? null : MessageBuffer.Factory.CreateJson(response, _jsonSerializerOptions);
             },
@@ -109,13 +121,45 @@ internal class Fdc3ChannelSelectorSerice : IHostedService
         }
     }
 
-    private ValueTask<JoinUserChannelResponse> JoinUserChannel(string channelId)
+    //private ValueTask<JoinUserChannelResponse> JoinUserChannel(string channelId, string instanceId)
+    private Task<ChannelSelectorResponse?> JoinUserChannel(string channelId, string instanceId)
     {
-        //_channelSelector.
+        return _channelSelector.ChannelSelector.SendChannelSelectorRequest(channelId, instanceId);
         
-        //_channelSelector.SendChannelSelectorRequest(channelId, channelId); //todo params
-        return new ValueTask<JoinUserChannelResponse>(); //todo replace fake return value
+        //_channelSelector.SendChannelSelectorRequest(channelId, instanceId); //todo params
+        //return new ValueTask<JoinUserChannelResponse>(); //todo replace fake return value
     }
+
+    
+
+
+    private Task<ChannelSelectorResponse?> UpdateControlColor(ChannelSelectorResponse res) {//foo
+
+        var color = (Color) ColorConverter.ConvertFromString(res.DisplayMetadata?.Color);
+
+        _channelSelector.CurrentChannelColor = color;
+
+       
+
+
+
+
+
+        return null; //todo replace fake return value
+    }
+
+    /*
+      private ValueTask<ResolverUIIntentResponse> ShowResolverUI(IEnumerable<string> intents)
+    {
+        return _resolverUIWindow.ShowResolverUI(intents, TimeSpan.FromMinutes(1));
+    }
+
+    private ValueTask<ResolverUIResponse> ShowResolverUI(IEnumerable<IAppMetadata> apps)
+    {
+        return _resolverUIWindow.ShowResolverUI(apps, TimeSpan.FromMinutes(1));
+    }
+     
+     */
 
 
 

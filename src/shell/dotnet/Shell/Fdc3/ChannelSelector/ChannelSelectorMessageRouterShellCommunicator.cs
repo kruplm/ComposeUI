@@ -54,7 +54,7 @@ namespace MorganStanley.ComposeUI.Shell.Fdc3.ChannelSelector
                 };
             }
         }
-
+        //this should upgdade the color to red for the first run
         private async Task<ChannelSelectorResponse?> SendChannelSelectorRequestCore(string channelId, string instanceId, CancellationToken cancellationToken = default)
         {
             var request = new ChannelSelectorRequest

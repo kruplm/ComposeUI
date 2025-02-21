@@ -501,7 +501,7 @@ internal class Fdc3DesktopAgent : IFdc3DesktopAgentBridge
             return JoinUserChannelResponse.Failed(ChannelError.CreationFailed);
         }
 
-        //todo check
+        //todo check -- comment out for now
         await _channelSelector.SendChannelSelectorRequest(request.ChannelId, request.InstanceId);
 
         if (channelItem != null)

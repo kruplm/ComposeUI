@@ -8,15 +8,38 @@ using Finos.Fdc3;
 using MorganStanley.ComposeUI.Fdc3.DesktopAgent;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows;
+using System.Windows.Media;
+using System.ComponentModel;
 
 
 namespace MorganStanley.ComposeUI.Shell.Fdc3.ChannelSelector
 {
-    public class Fdc3ChannelSelectorViewModel
+    public class Fdc3ChannelSelectorViewModel: INotifyPropertyChanged
     {
         public IChannelSelectorCommunicator ChannelSelector;
         private ICommand? _joinChannelCommand;
         public ICommand SelectCurrentChannelCommand { get; }
+
+
+        private Color _currentChannelColor = Colors.Gray;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public Color CurrentChannelColor
+        {
+            get => _currentChannelColor;
+            set
+            {
+                _currentChannelColor = value;
+                OnPropertyChanged(nameof(CurrentChannelColor));
+            }
+        }
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null) 
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
 
 
         public Fdc3ChannelSelectorViewModel(IChannelSelectorCommunicator channelSelector)

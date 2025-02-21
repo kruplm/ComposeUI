@@ -26,5 +26,6 @@ namespace MorganStanley.ComposeUI.Fdc3.DesktopAgent
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public Task<ChannelSelectorResponse?> SendChannelSelectorRequest(string channelId, string instanceId, CancellationToken cancellationToken = default);
+       // public ValueTask<ChannelSelectorResponse?> SendChannelSelectorRequest(string channelId, string instanceId, CancellationToken cancellationToken = default);
     }   
 }

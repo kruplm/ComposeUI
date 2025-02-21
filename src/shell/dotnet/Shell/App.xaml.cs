@@ -203,7 +203,7 @@ public partial class App : Application
                 services.AddFdc3AppDirectory();
                 services.AddSingleton<Fdc3ResolverUIWindow>();
                 services.AddSingleton<IResolverUIProjector>(p => p.GetRequiredService<Fdc3ResolverUIWindow>());
-                //add service
+                //add service -- do I need to add the singleton here?
                 services.AddSingleton<IChannelSelectorCommunicator, ChannelSelectorMessageRouterShellCommunicator>();
                 services.AddHostedService<ResolverUIService>();
                 services.AddHostedService<Fdc3ChannelSelectorSerice>();

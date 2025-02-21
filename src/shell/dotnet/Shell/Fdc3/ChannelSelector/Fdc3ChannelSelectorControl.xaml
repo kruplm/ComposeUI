@@ -13,7 +13,7 @@
             x:Name="ChannelSelector"
             Grid.Row="3"
             VerticalAlignment="Bottom"
-            BorderBrush="Gray"          
+            BorderBrush="{Binding CurrentChannelColor, Mode=TwoWay}"          
             BorderThickness="8.0"
             HorizontalAlignment="Left"
             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
