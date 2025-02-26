@@ -12,12 +12,26 @@
  * and limitations under the License.
  */
 
+//using Finos.Fdc3;
 using MorganStanley.ComposeUI.Fdc3.DesktopAgent.Protocol;
 
 namespace MorganStanley.ComposeUI.Fdc3.DesktopAgent.Contracts;
 
-public sealed class JoinUserChannelResponse
+/// <summary>
+/// Response from the service which provides the ResolverUI's functionality.
+/// </summary>
+public class ChannelSelectorResponse
 {
+    /// <summary>
+    /// The chosen app to send the raised intent to handle.
+    /// </summary>
+    //public IAppMetadata? AppMetadata { get; set; }
+
+    /// <summary>
+    /// Any error message that happened during execution, either from <see cref="ResolveError"/>.
+    /// </summary>
+    //public string? Error { get; set; }
+
     /// <summary>
     /// Error while executing the JoinUserChannel call.
     /// </summary>

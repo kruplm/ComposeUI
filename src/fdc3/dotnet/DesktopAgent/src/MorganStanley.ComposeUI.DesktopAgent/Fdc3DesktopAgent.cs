@@ -43,6 +43,7 @@ internal class Fdc3DesktopAgent : IFdc3DesktopAgentBridge
 {
     private readonly ILogger<Fdc3DesktopAgent> _logger;
     private readonly IResolverUICommunicator _resolverUI;
+    private readonly IChannelSelectorCommunicator _channelSelector;
     private readonly IUserChannelSetReader _userChannelSetReader;
     private readonly ConcurrentDictionary<string, UserChannel> _userChannels = new();
     private readonly ConcurrentDictionary<string, PrivateChannel> _privateChannels = new();
@@ -66,6 +67,7 @@ internal class Fdc3DesktopAgent : IFdc3DesktopAgentBridge
         IModuleLoader moduleLoader,
         IOptions<Fdc3DesktopAgentOptions> options,
         IResolverUICommunicator resolverUI,
+        IChannelSelectorCommunicator channelSelector,
         IUserChannelSetReader userChannelSetReader,
         ILoggerFactory? loggerFactory = null)
     {
@@ -73,6 +75,7 @@ internal class Fdc3DesktopAgent : IFdc3DesktopAgentBridge
         _moduleLoader = moduleLoader;
         _options = options.Value;
         _resolverUI = resolverUI;
+        _channelSelector = channelSelector;
         _userChannelSetReader = userChannelSetReader;
         _loggerFactory = loggerFactory ?? NullLoggerFactory.Instance;
         _logger = _loggerFactory.CreateLogger<Fdc3DesktopAgent>() ?? NullLogger<Fdc3DesktopAgent>.Instance;
@@ -469,6 +472,10 @@ internal class Fdc3DesktopAgent : IFdc3DesktopAgentBridge
 
     public async ValueTask<JoinUserChannelResponse?> JoinUserChannel(Func<string, UserChannel> addUserChannelFactory, JoinUserChannelRequest request)
     {
+
+        
+        
+        ////////
         if (!Guid.TryParse(request.InstanceId, out var id) || !_runningModules.TryGetValue(id, out _))
         {
             return JoinUserChannelResponse.Failed(Fdc3DesktopAgentErrors.MissingId);
@@ -491,10 +498,17 @@ internal class Fdc3DesktopAgent : IFdc3DesktopAgentBridge
             return JoinUserChannelResponse.Failed(ChannelError.CreationFailed);
         }
 
+        //todo check
+        //----await _channelSelector.SendChannelSelectorRequest(request.ChannelId, request.InstanceId);
+
         if (channelItem != null)
         {
+            //_channelSelector.UpdateChannelColor(channelItem.DisplayMetadata.Color);
+            await _channelSelector.SendChannelSelectorColorUpdateRequest(request, channelItem.DisplayMetadata.Color);
             return JoinUserChannelResponse.Joined(channelItem.DisplayMetadata);
         }
+
+        
 
         return JoinUserChannelResponse.Joined();
     }
