@@ -38,6 +38,7 @@ import { MetadataClient } from './infrastructure/MetadataClient';
 import { MessageRouterMetadataClient } from './infrastructure/MessageRouterMetadataClient';
 import { OpenClient } from "./infrastructure/OpenClient";
 import { MessageRouterOpenClient } from "./infrastructure/MessageRouterOpenClient";
+import { ChannelSelectorClient } from "./infrastructure/ChannelSelectorClient";
 
 export class ComposeUIDesktopAgent implements DesktopAgent {
     private appChannels: Channel[] = [];
@@ -52,6 +53,7 @@ export class ComposeUIDesktopAgent implements DesktopAgent {
     private openClient: OpenClient;
     private openedAppContext?: Context;
     private openedAppContextHandled: boolean = false;
+    private channelSelectorClient: ChannelSelectorClient;
 
     //TODO: we should enable passing multiple channelId to the ctor.
     constructor(messageRouterClient: MessageRouter, channelFactory?: ChannelFactory) {
@@ -64,6 +66,24 @@ export class ComposeUIDesktopAgent implements DesktopAgent {
         this.intentsClient = new MessageRouterIntentsClient(messageRouterClient, this.channelFactory);
         this.metadataClient = new MessageRouterMetadataClient(messageRouterClient, window.composeui.fdc3.config);
         this.openClient = new MessageRouterOpenClient(window.composeui.fdc3.config.instanceId!, messageRouterClient, window.composeui.fdc3.openAppIdentifier);
+        this.channelSelectorClient = new ChannelSelectorClient(messageRouterClient, window.composeui.fdc3.config.instanceId!, window.composeui.fdc3.channelId!);
+    }
+
+
+
+    public async selectChannel(){
+        console.log("selectChannel()");
+        let channelNumber = await this.channelSelectorClient.subscribe();
+        //console.log("\channelNumber", channelNumber);
+        //let channelId ="fdc3.channel." + channelNumber;
+        //console.log("\tchannelId", channelId);
+
+       // this.currentChannel = await this.getOrCreateChannel(channelId!);
+        //console.log("\this.currentChannel", this.currentChannel);
+
+        //this.getCurrentChannel()
+
+        //await this.joinUserChannel(channelId!);
     }
 
     public async open(app?: string | AppIdentifier, context?: Context): Promise<AppIdentifier> {
@@ -145,6 +165,7 @@ export class ComposeUIDesktopAgent implements DesktopAgent {
     }
 
     public async joinUserChannel(channelId: string): Promise<void> {
+        console.log("joinUserChannel", "[channelId", channelId, "]");
         if (this.currentChannel) {
             //DesktopAgnet clients can listen on only one channel
             await this.leaveCurrentChannel();
@@ -153,6 +174,7 @@ export class ComposeUIDesktopAgent implements DesktopAgent {
         let channel = this.userChannels.find(innerChannel => innerChannel.id == channelId);
         if (!channel) {
             channel = await this.channelFactory.joinUserChannel(channelId);
+            //this.channelSelectorClient.colorUpdate(channelId);   //TODO check where is better to call for color update
             
             if (!channel) {
                 throw new Error(ChannelError.NoChannelFound);
@@ -169,6 +191,9 @@ export class ComposeUIDesktopAgent implements DesktopAgent {
                     queueMicrotask(async () => await this.callHandlerOnChannelsCurrentContext(listener));
                 });
         }
+        //this.channelSelectorClient.colorUpdate(channel.displayMetadata.)
+
+        this.channelSelectorClient.colorUpdate(channelId, channel.displayMetadata?.color); //todo
     }
 
     public async getOrCreateChannel(channelId: string): Promise<Channel> {

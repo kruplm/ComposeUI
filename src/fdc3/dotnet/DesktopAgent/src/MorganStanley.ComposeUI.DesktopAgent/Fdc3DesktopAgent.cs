@@ -43,6 +43,7 @@ internal class Fdc3DesktopAgent : IFdc3DesktopAgentBridge
 {
     private readonly ILogger<Fdc3DesktopAgent> _logger;
     private readonly IResolverUICommunicator _resolverUI;
+    private readonly IChannelSelector _channelSelector;
     private readonly IUserChannelSetReader _userChannelSetReader;
     private readonly ConcurrentDictionary<string, UserChannel> _userChannels = new();
     private readonly ConcurrentDictionary<string, PrivateChannel> _privateChannels = new();
@@ -66,6 +67,7 @@ internal class Fdc3DesktopAgent : IFdc3DesktopAgentBridge
         IModuleLoader moduleLoader,
         IOptions<Fdc3DesktopAgentOptions> options,
         IResolverUICommunicator resolverUI,
+        IChannelSelector channelSelector,
         IUserChannelSetReader userChannelSetReader,
         ILoggerFactory? loggerFactory = null)
     {
@@ -73,6 +75,7 @@ internal class Fdc3DesktopAgent : IFdc3DesktopAgentBridge
         _moduleLoader = moduleLoader;
         _options = options.Value;
         _resolverUI = resolverUI;
+        _channelSelector = channelSelector;
         _userChannelSetReader = userChannelSetReader;
         _loggerFactory = loggerFactory ?? NullLoggerFactory.Instance;
         _logger = _loggerFactory.CreateLogger<Fdc3DesktopAgent>() ?? NullLogger<Fdc3DesktopAgent>.Instance;
@@ -495,6 +498,8 @@ internal class Fdc3DesktopAgent : IFdc3DesktopAgentBridge
         {
             return JoinUserChannelResponse.Joined(channelItem.DisplayMetadata);
         }
+        
+
 
         return JoinUserChannelResponse.Joined();
     }
