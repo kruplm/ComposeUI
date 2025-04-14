@@ -69,21 +69,8 @@ export class ComposeUIDesktopAgent implements DesktopAgent {
         this.channelSelectorClient = new ChannelSelectorClient(messageRouterClient, window.composeui.fdc3.config.instanceId!, window.composeui.fdc3.channelId!);
     }
 
-
-
     public async selectChannel(){
-        console.log("selectChannel()");
-        let channelNumber = await this.channelSelectorClient.subscribe();
-        //console.log("\channelNumber", channelNumber);
-        //let channelId ="fdc3.channel." + channelNumber;
-        //console.log("\tchannelId", channelId);
-
-       // this.currentChannel = await this.getOrCreateChannel(channelId!);
-        //console.log("\this.currentChannel", this.currentChannel);
-
-        //this.getCurrentChannel()
-
-        //await this.joinUserChannel(channelId!);
+        await this.channelSelectorClient.subscribe();
     }
 
     public async open(app?: string | AppIdentifier, context?: Context): Promise<AppIdentifier> {
@@ -165,7 +152,6 @@ export class ComposeUIDesktopAgent implements DesktopAgent {
     }
 
     public async joinUserChannel(channelId: string): Promise<void> {
-        console.log("joinUserChannel", "[channelId", channelId, "]");
         if (this.currentChannel) {
             //DesktopAgnet clients can listen on only one channel
             await this.leaveCurrentChannel();
@@ -174,7 +160,6 @@ export class ComposeUIDesktopAgent implements DesktopAgent {
         let channel = this.userChannels.find(innerChannel => innerChannel.id == channelId);
         if (!channel) {
             channel = await this.channelFactory.joinUserChannel(channelId);
-            //this.channelSelectorClient.colorUpdate(channelId);   //TODO check where is better to call for color update
             
             if (!channel) {
                 throw new Error(ChannelError.NoChannelFound);
@@ -191,9 +176,7 @@ export class ComposeUIDesktopAgent implements DesktopAgent {
                     queueMicrotask(async () => await this.callHandlerOnChannelsCurrentContext(listener));
                 });
         }
-        //this.channelSelectorClient.colorUpdate(channel.displayMetadata.)
-
-        this.channelSelectorClient.colorUpdate(channelId, channel.displayMetadata?.color); //todo
+        this.channelSelectorClient.colorUpdate(channelId, channel.displayMetadata?.color);
     }
 
     public async getOrCreateChannel(channelId: string): Promise<Channel> {
