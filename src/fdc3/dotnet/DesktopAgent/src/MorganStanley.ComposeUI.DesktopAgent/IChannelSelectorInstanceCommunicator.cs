@@ -11,20 +11,8 @@ namespace MorganStanley.ComposeUI.Fdc3.DesktopAgent
     public delegate Task Fdc3ChannelSelectorColorupdateEventHandler(string color);
     public interface IChannelSelectorInstanceCommunicator
     {
-        //public Task RegisterMessageRouterForInstance(string instanceId);
-        public Task RegisterMessageRouterForInstance(string instanceId, Fdc3ChannelSelectorColorupdateEventHandler eventHandler);
-
-        //public Task<ChannelSelectorResponse> InvokeColorUpdate(ChannelSelectorRequest request, CancellationToken cancellationToken = default);
-
-
-       // public Task<ChannelSelectorResponse> InvokeColorUpdate( string instanceId, CancellationToken cancellationToken = default);
-        
-
-
-
+        public Task RegisterMessageRouterForInstance(string instanceId, Fdc3ChannelSelectorColorupdateEventHandler eventHandler, CancellationToken cancellationToken = default);
 
         public void InvokeChannelSelectorRequest(ChannelSelectorRequest request, CancellationToken cancellationToken = default);
-
-
     }
 }

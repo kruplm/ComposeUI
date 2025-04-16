@@ -21,7 +21,7 @@ export class ChannelSelectorClient {
 
     public async subscribe() : Promise<string>{
         await this.messageRouterClient.connect();
-        await this.messageRouterClient.subscribe("ComposeUI/fdc3/v2.0/channelSelector2", (topicMessage: TopicMessage) => {
+        await this.messageRouterClient.subscribe("ComposeUI/fdc3/v2.0/changeChannel", (topicMessage: TopicMessage) => {
             const payload = <ChannelSelectorResponse>JSON.parse(topicMessage.payload!); //todo check parsing as lowercase doesn't work
             
             if(payload.InstanceId === this.instanceId)
