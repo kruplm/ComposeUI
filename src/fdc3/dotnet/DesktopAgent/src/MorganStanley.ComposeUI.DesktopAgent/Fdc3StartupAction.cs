@@ -64,7 +64,7 @@ internal sealed class Fdc3StartupAction : IStartupAction
                     startupContext.StartRequest.Parameters.FirstOrDefault(
                         x => x.Key == Fdc3StartupParameters.OpenedAppContextId).Value;
 
-                var fdc3StartupProperties = new Fdc3StartupProperties() { InstanceId = fdc3InstanceId, ChannelId = channelId, OpenedAppContextId = openedAppContextId };
+                var fdc3StartupProperties = new Fdc3StartupProperties() { InstanceId = fdc3InstanceId, ChannelId = channelId, OpenedAppContextId = openedAppContextId, UserChannelSet = userChannelSet };
                 fdc3InstanceId = startupContext.GetOrAddProperty<Fdc3StartupProperties>(_ => fdc3StartupProperties).InstanceId;
 
                 var webProperties = startupContext.GetOrAddProperty<WebStartupProperties>();

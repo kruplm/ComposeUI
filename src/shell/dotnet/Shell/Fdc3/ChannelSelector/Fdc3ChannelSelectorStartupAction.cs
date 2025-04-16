@@ -33,9 +33,10 @@ namespace MorganStanley.ComposeUI.Shell.Fdc3.ChannelSelector
                 var color = webStartupProperties.ChannelColor;
                 var instanceId = webStartupProperties.InstanceId;
 
+                var fdc3StartupProperties = startupContext.GetOrAddProperty<Fdc3StartupProperties>();
+                var userChannelSet = fdc3StartupProperties.UserChannelSet;
 
-                _fdc3ChannelSelectorControl = new Fdc3ChannelSelectorControl(_channelSelectorInstanceCommunicator, color, instanceId);
-
+                _fdc3ChannelSelectorControl = new Fdc3ChannelSelectorControl(_channelSelectorInstanceCommunicator, color, instanceId, userChannelSet);
 
                 await Task.Run(async () =>
                 {

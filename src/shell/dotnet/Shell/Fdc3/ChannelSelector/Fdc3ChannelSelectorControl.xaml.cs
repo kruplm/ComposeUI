@@ -23,12 +23,14 @@ namespace MorganStanley.ComposeUI.Shell.Fdc3.ChannelSelector
     {
         private readonly Fdc3ChannelSelectorViewModel? _viewModel;
         private string _instanceId;
+        private IReadOnlyDictionary<string, ComposeUI.Fdc3.DesktopAgent.Protocol.ChannelItem> _userChannelSet;
 
-        public Fdc3ChannelSelectorControl(IChannelSelectorInstanceCommunicator channelSelectorCommunicator, string color, string instanceId) {
+        public Fdc3ChannelSelectorControl(IChannelSelectorInstanceCommunicator channelSelectorCommunicator, string color, string instanceId, IReadOnlyDictionary<string, ComposeUI.Fdc3.DesktopAgent.Protocol.ChannelItem> userChannelSet) {
             InitializeComponent();
 
             _viewModel = new Fdc3ChannelSelectorViewModel(channelSelectorCommunicator, instanceId, color);
             _instanceId = instanceId;
+            _userChannelSet = userChannelSet;
             DataContext = _viewModel;
         }
 
@@ -37,10 +39,14 @@ namespace MorganStanley.ComposeUI.Shell.Fdc3.ChannelSelector
             Button btn = (Button) sender;
             var channelNumber = (string)btn.Content;
             var color = btn.Background;
+            
             await Task.Run(() =>
             {
-                _viewModel.SendChannelSelectorRequest(channelNumber, _instanceId);
+                var channelId = _userChannelSet.FirstOrDefault(x => x.Value.DisplayMetadata.Glyph == channelNumber).Key;
+
+                _viewModel.SendChannelSelectorRequest(channelId, _instanceId);
             });
+            
             ChannelSelector.BorderBrush = color;
         }
 
