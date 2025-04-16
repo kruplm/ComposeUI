@@ -12,17 +12,11 @@
  * and limitations under the License.
  */
 
-using Finos.Fdc3;
 
 namespace MorganStanley.ComposeUI.Fdc3.DesktopAgent.Contracts;
 
 public class ChannelSelectorRequest
 {
-    /// <summary>
-    /// Intents that could be selected to resolve the raiseIntentForContext call.
-    /// </summary>
-    public IEnumerable<IAppMetadata> AppMetadata { get; set; }
-
     /// <summary>
     /// Uniques identifier of the channel.
     /// </summary>
@@ -32,6 +26,4 @@ public class ChannelSelectorRequest
     /// Unique identifier of the app which sent the request.
     /// </summary>
     public string InstanceId { get; set; }
-
-    public string? Color { get; set; }
 }
