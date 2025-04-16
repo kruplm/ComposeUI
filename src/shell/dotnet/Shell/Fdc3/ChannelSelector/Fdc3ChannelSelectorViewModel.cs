@@ -12,34 +12,16 @@
  * and limitations under the License.
  */
 
-
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Finos.Fdc3;
 using MorganStanley.ComposeUI.Fdc3.DesktopAgent;
-using CommunityToolkit.Mvvm.Input;
-using System.Windows;
 using System.Windows.Media;
 using System.ComponentModel;
-using MorganStanley.ComposeUI.Shell.Fdc3.ResolverUI.Pages;
 using System.Threading;
-using System.Windows.Controls;
-using MorganStanley.ComposeUI.Shell.Fdc3.ResolverUI;
-using Finos.Fdc3.AppDirectory;
-using System.Threading.Channels;
-using MorganStanley.ComposeUI.Fdc3.DesktopAgent.Protocol;
-using CommunityToolkit.HighPerformance;
 using MorganStanley.ComposeUI.Fdc3.DesktopAgent.Contracts;
 using Microsoft.Extensions.Logging;
-using MorganStanley.ComposeUI.Messaging;
-using MorganStanley.ComposeUI.Messaging.Abstractions;
-using System.Text.Json;
-using MorganStanley.ComposeUI.Fdc3.DesktopAgent.Converters;
-using System.Windows.Navigation;
 
 
 namespace MorganStanley.ComposeUI.Shell.Fdc3.ChannelSelector
@@ -47,46 +29,21 @@ namespace MorganStanley.ComposeUI.Shell.Fdc3.ChannelSelector
     public class Fdc3ChannelSelectorViewModel : INotifyPropertyChanged, IChannelSelector
     {
         public IChannelSelectorInstanceCommunicator ChannelSelectorInstanceCommunicator;
-        private string _instanceId;
-        private ICommand? _joinChannelCommand;
-
-        private readonly List<ChannelSelectorAppData> _appData = [];
-
         public event PropertyChangedEventHandler? PropertyChanged;
         private IUserChannelSetReader _userChannelSetReader;
-
-        public ICommand SelectCurrentChannelCommand { get; }
-        private IEnumerable<ChannelItem> _channelSet;
-
-
         private readonly ILogger<ChannelSelectorInstanceCommunicator> _logger;
         private readonly object _disposeLock = new();
-
         private readonly List<Func<ValueTask>> _disposeTask = new();
-        private string? _channelId;
-        private string? _color;
-        private IDesktopAgent _desktopAgent;
-        private readonly JsonSerializerOptions _jsonSerializerOptions = new()
-        {
-            Converters = { new AppMetadataJsonConverter(), new IconJsonConverter() }
-        };
 
         public Fdc3ChannelSelectorViewModel(IChannelSelectorInstanceCommunicator channelSelectorInstanceCommunicator, string instanceId = "", string color = "Gray")
         {
             ChannelSelectorInstanceCommunicator = channelSelectorInstanceCommunicator;
-            _instanceId = instanceId;
-
-            if (ChannelSelectorInstanceCommunicator == null)
-            {
-                throw new ArgumentNullException("channelSelector");
-            }
 
             SetCurrentColor(_currentChannelColor);
-            SetCurrentChannelColorCommand = new RelayCommand(SetCurrentChannelColor);
+
             if (color != null)
             {
                 var brushColor = GetBrushForColor(color);
-
                 SetCurrentColor(brushColor);
             }
         }
@@ -99,8 +56,6 @@ namespace MorganStanley.ComposeUI.Shell.Fdc3.ChannelSelector
             return brush;
         }
 
-
-        public ICommand SetCurrentChannelColorCommand { get; }
         private void SetCurrentColor(Brush color)
         {
             CurrentChannelColor = color;
@@ -138,7 +93,6 @@ namespace MorganStanley.ComposeUI.Shell.Fdc3.ChannelSelector
 
             return Task.CompletedTask;
         }
-
 
         public async Task SendChannelSelectorColorUpdateRequest(JoinUserChannelRequest req, string? color, CancellationToken cancellationToken = default)
         {
