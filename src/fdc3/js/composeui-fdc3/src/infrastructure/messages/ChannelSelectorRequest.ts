@@ -12,8 +12,8 @@
 
 export class ChannelSelectorRequest { 
     constructor(
-        public readonly InstanceId: string,
-        public readonly ChannelId: string,
-        public readonly Color: string | undefined
+        public readonly instanceId: string,
+        public readonly channelId: string,
+        public readonly color: string | undefined
     ){}
 }

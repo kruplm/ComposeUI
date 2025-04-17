@@ -24,9 +24,9 @@ export class ChannelSelectorClient {
         await this.messageRouterClient.subscribe("ComposeUI/fdc3/v2.0/changeChannel", (topicMessage: TopicMessage) => {
             const payload = <ChannelSelectorResponse>JSON.parse(topicMessage.payload!); //todo check parsing as lowercase doesn't work
             
-            if(payload.InstanceId === this.instanceId)
+            if(payload.instanceId === this.instanceId)
             {
-                window.fdc3.joinUserChannel(payload.ChannelId);
+                window.fdc3.joinUserChannel(payload.channelId);
             }
         });
         return this.channelId!;

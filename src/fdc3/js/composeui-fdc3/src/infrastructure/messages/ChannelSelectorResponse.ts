@@ -11,6 +11,6 @@
  */
 
 export interface ChannelSelectorResponse {
-    InstanceId: string;
-    ChannelId: string;
+    instanceId: string;
+    channelId: string;
 }

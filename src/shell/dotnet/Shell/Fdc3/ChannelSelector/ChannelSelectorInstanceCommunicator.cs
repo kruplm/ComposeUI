@@ -16,6 +16,7 @@ using System.Reactive.Linq;
 using System.Windows;
 using MorganStanley.ComposeUI.Messaging.Protocol;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 
 namespace MorganStanley.ComposeUI.Shell.Fdc3.ChannelSelector
@@ -26,7 +27,7 @@ namespace MorganStanley.ComposeUI.Shell.Fdc3.ChannelSelector
         private readonly IMessageRouter _messageRouter;
         private readonly object _disposeLock = new();
         private readonly List<Func<ValueTask>> _disposeTask = new();
-        private readonly JsonSerializerOptions _jsonSerializerOptions = new();
+        private readonly JsonSerializerOptions _jsonSerializerOptions = new(JsonSerializerDefaults.Web);
 
         IChannelSelectorInstanceCommunicator _channelSelectorComm;
 
