@@ -26,6 +26,12 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Web.WebView2.Core;
 using MorganStanley.ComposeUI.ModuleLoader;
 using MorganStanley.ComposeUI.Shell.ImageSource;
+using System.Windows.Controls.Primitives;
+using Windows.UI.Popups;
+using MorganStanley.ComposeUI.Shell.Fdc3.ChannelSelector;
+using MorganStanley.ComposeUI.Fdc3.DesktopAgent;
+using MorganStanley.ComposeUI.Messaging;
+using MorganStanley.ComposeUI.Fdc3.DesktopAgent.Contracts;
 
 namespace MorganStanley.ComposeUI.Shell;
 
@@ -91,6 +97,10 @@ public partial class WebContent : ContentPresenter, IDisposable
     private LifetimeEventType _lifetimeEvent = LifetimeEventType.Started;
     private readonly TaskCompletionSource _scriptInjectionCompleted = new();
     private readonly List<IDisposable> _disposables = new();
+    private string? _instance;
+    private string? _channelId;
+    private string? _color;
+    private Fdc3ChannelSelectorControl _fdc3ChannelSelectorControl;
 
     public WebWindowOptions Options => _options;
 
@@ -138,6 +148,10 @@ public partial class WebContent : ContentPresenter, IDisposable
             {
                 await InjectScriptsAsync(coreWebView);
             });
+
+
+        var versionString = CoreWebView2Environment.GetAvailableBrowserVersionString();
+        var wv2version = typeof(CoreWebView2Environment).Assembly.GetName().Version;
     }
 
     private void OnDocumentTitleChanged(object args)
@@ -185,7 +199,15 @@ public partial class WebContent : ContentPresenter, IDisposable
                     {
                         var script = await scriptProvider(_moduleInstance!);
                         await coreWebView.AddScriptToExecuteOnDocumentCreatedAsync(script);
-                    }));
+                    })
+                
+                );
+            _instance = webProperties.InstanceId;
+            _channelId = webProperties.ChannelId;
+            _color = webProperties.ChannelColor;
+            _fdc3ChannelSelectorControl = (Fdc3ChannelSelectorControl) webProperties.Fdc3ChannelSelectorControl;
+
+            LayoutRoot.Children.Add(_fdc3ChannelSelectorControl);
         }
 
         _scriptInjectionCompleted.SetResult();
@@ -217,6 +239,10 @@ public partial class WebContent : ContentPresenter, IDisposable
         var window = App.Current.CreateWebContent(constructorArgs.ToArray());
         await window.WebView.EnsureCoreWebView2Async();
         e.NewWindow = window.WebView.CoreWebView2;
+
+        
+       
+    
     }
 
     private void OnWindowCloseRequested(object args)

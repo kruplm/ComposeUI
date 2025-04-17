@@ -38,6 +38,7 @@ internal class Fdc3DesktopAgentMessageRouterService : IHostedService
     private readonly Fdc3DesktopAgentOptions _options;
     private readonly ILoggerFactory _loggerFactory;
     private readonly ILogger<Fdc3DesktopAgentMessageRouterService> _logger;
+    private readonly IChannelSelectorDACommunicator _channelSelector;
     private readonly JsonSerializerOptions _jsonSerializerOptions = new(JsonSerializerDefaults.Web)
     {
         WriteIndented = true,
