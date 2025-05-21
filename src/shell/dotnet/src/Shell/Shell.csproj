@@ -13,6 +13,7 @@
 		<None Remove="Fdc3\ChannelSelector\Fdc3ChannelSelectorControl.xaml" />
 		<None Remove="Fdc3\ResolverUI\ResolverUIIntent.xaml" />
 		<None Remove="MainWindow.xaml" />
+		<None Remove="Popup\PopupWindow.xaml" />
 		<None Remove="WebContent.xaml" />
 	</ItemGroup>
 	
@@ -32,6 +33,9 @@
 	<ItemGroup>
 		<Page Include="Fdc3\ChannelSelector\Fdc3ChannelSelectorControl.xaml" />
 		<Page Include="Fdc3\ResolverUI\ResolverUIIntent.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Include="Popup\PopupWindow.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Include="WebContent.xaml">
