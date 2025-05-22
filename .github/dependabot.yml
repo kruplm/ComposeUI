@@ -24,6 +24,8 @@ updates:
         - dependency-name: 'Finos.Fdc3*'
           versions: [ '>=2.1' ]
     ignore:
+      - dependency-name: 'Finos.Fdc3*'
+        versions: [ '>=2.1' ]
       - dependency-name: 'FluentAssertions*'
         versions: [ '>=8.0' ]
     groups:
@@ -156,9 +158,11 @@ updates:
     directory: '/'
     schedule:
       interval: 'monthly'
-      ignore:
-        - dependency-name: '@finos/fdc3'
-          versions: [ '>=2.1' ]
+    ignore:
+      - dependency-name: '@finos/fdc3'
+        versions: [ '>=2.1' ]
+      - dependency-name: '@angular*'
+        update-types: ['version-update:semver-major']
     groups:
       react:
         patterns:
@@ -181,10 +185,6 @@ updates:
           - '@types/jasmine'
           - 'jasmine*'
           - 'karma*'
-    ignore:
-      - dependency-name: '@angular*'
-        update-types: ['version-update:semver-major']
-
   - package-ecosystem: 'npm'
     registries:
       - 'github-packages'

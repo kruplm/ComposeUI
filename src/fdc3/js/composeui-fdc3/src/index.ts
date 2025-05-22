@@ -34,8 +34,7 @@ declare global {
     //TODO: decide if we want to join to a channel by default.
     let channelId: string | undefined = window.composeui.fdc3.channelId;
     const openAppIdentifier: OpenAppIdentifier | undefined = window.composeui.fdc3.openAppIdentifier;
-    const client = createMessageRouter();
-    const fdc3 = new ComposeUIDesktopAgent(client);
+    const fdc3 = new ComposeUIDesktopAgent(createMessageRouter());
 
     if (channelId) {
         await fdc3.joinUserChannel(channelId)
