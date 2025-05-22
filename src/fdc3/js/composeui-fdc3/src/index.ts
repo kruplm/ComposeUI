@@ -30,7 +30,7 @@ declare global {
     }
 }
 
-async function initialize(): Promise<void> {
+(async function initialize(): Promise<void> {
     //TODO: decide if we want to join to a channel by default.
     let channelId: string | undefined = window.composeui.fdc3.channelId;
     const openAppIdentifier: OpenAppIdentifier | undefined = window.composeui.fdc3.openAppIdentifier;
@@ -61,6 +61,7 @@ async function initialize(): Promise<void> {
             window.dispatchEvent(new Event("fdc3Ready"));
         }
     }
-}
 
-initialize();
+    await fdc3.selectChannel();
+
+})();

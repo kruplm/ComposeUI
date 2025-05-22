@@ -90,7 +90,7 @@ From the ComposeUI folder:
 .\examples\fdc3-chart-and-grid\serve-chart-and-grid.ps1
 ```
 Now the development servers are running:
-* Chart: localhost:8080
+* Chart: localhost:8088
 * Grid: localhost:4200
 
 ### Launching the Shell with the Examples
@@ -180,7 +180,7 @@ For more information check the [documentation](https://lerna.js.org/docs/api-ref
 ```
     "FDC3-Local": {
       "commandName": "Project",
-      "commandLineArgs": "--ModuleCatalog:CatalogUrl \"file:///$(ProjectDir)..\\examples\\module-catalog.json\" --FDC3:AppDirectory:Source Path-To-Local-Conformance-Framework-Root\\FDC3-conformance-framework\\directories\\local-conformance-2_0.v2.json"
+      "commandLineArgs": "--ModuleCatalog:CatalogUrl \"file:///$(ProjectDir)..\\..\\examples\\module-catalog.json\" --FDC3:AppDirectory:Source Path-To-Local-Conformance-Framework-Root\\FDC3-conformance-framework\\directories\\local-conformance-2_0.v2.json"
     }
 ```
 # Building the Experimental Artifacts
@@ -231,7 +231,7 @@ From the ComposeUI folder:
 
 Now the development servers are running:
 
-- Chart: localhost:8080
+- Chart: localhost:8088
 - Grid: localhost:4200
 
 ### Launching the Shell with the Examples

@@ -28,6 +28,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Web.WebView2.Core;
 using MorganStanley.ComposeUI.ModuleLoader;
 using MorganStanley.ComposeUI.Shell.ImageSource;
+using System.Windows;
 using MorganStanley.ComposeUI.Shell.Popup;
 
 namespace MorganStanley.ComposeUI.Shell;
@@ -109,7 +110,9 @@ internal partial class WebContent : ContentPresenter, IDisposable
 
     private async Task InitializeAsync()
     {
-        await WebView.EnsureCoreWebView2Async();
+        var environment = await CoreWebView2Environment.CreateAsync(options: new CoreWebView2EnvironmentOptions());
+
+        await WebView.EnsureCoreWebView2Async(environment);
         await InitializeCoreWebView2(WebView.CoreWebView2);
         await LoadWebContentAsync(_options);
     }
@@ -205,7 +208,13 @@ internal partial class WebContent : ContentPresenter, IDisposable
                     {
                         var script = await scriptProvider(_moduleInstance!);
                         await coreWebView.AddScriptToExecuteOnDocumentCreatedAsync(script);
-                    }));
+                    })
+                );
+
+            if (webProperties.Fdc3ChannelSelectorControl is UIElement element)
+            {
+                LayoutRoot.Children.Add(element);
+            }
         }
 
         _scriptInjectionCompleted.SetResult();
