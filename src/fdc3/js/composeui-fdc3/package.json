@@ -1,7 +1,7 @@
 {
   "name": "@morgan-stanley/composeui-fdc3",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.1.0-alpha.5",
+  "private": false,
   "description": "FDC3 DesktopAgent implementation for Compose UI",
   "type": "module",
   "main": "dist/index.js",
@@ -28,8 +28,9 @@
     "url": "git+https://github.com/morganstanley/ComposeUI.git"
   },
   "publishConfig": {
-    "access": "restricted",
-    "provenance": true
+    "access": "public",
+    "provenance": true,
+    "directory": "dist"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "28.0.3",
