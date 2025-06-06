@@ -20,7 +20,8 @@
   },
   "publishConfig": {
     "access": "public",
-    "provenance": true
+    "provenance": true,
+    "directory": "output"
   },
   "bin": {
     "composeui": "./output/cli/cli.js"
